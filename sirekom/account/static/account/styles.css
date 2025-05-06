@@ -1,0 +1,192 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #121212;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cap-top {
+    width: 200px;
+    height: 20px;
+    background-color: #333;
+    position: absolute;
+    top: 70px;
+    transform: perspective(200px) rotateX(45deg);
+}
+
+.cap-body {
+    width: 150px;
+    height: 80px;
+    background-color: #222;
+    position: absolute;
+    top: 80px;
+    left: 25px;
+}
+
+.tassel {
+    width: 10px;
+    height: 120px;
+    background-color: #d4af37;
+    position: absolute;
+    top: 80px;
+    left: 25px;
+    border-radius: 5px;
+}
+
+.tassel-end {
+    width: 30px;
+    height: 30px;
+    background-color: #d4af37;
+    position: absolute;
+    top: 190px;
+    left: 15px;
+    border-radius: 15px;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
+.image-side {
+    width: 100%;
+    background-image: url('images/bg1.png');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display:flex;
+    justify-content: flex-end; /* ubah dari space-around ke flex-end */
+}
+
+.form-side {
+    width: 40%;
+    background-color: rgba(100, 94, 61, 0.5);
+    margin: 50px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 29px;
+    backdrop-filter: blur(4px);
+}
+
+.logo {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.logo img {
+    width: 40%;
+    height: auto;
+  }
+ 
+  
+h1 {
+    color: #FFF7C0;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 28px;
+    font-family:'Roboto';
+}
+
+.subtitle {
+    color: #C1C1C1;
+    text-align: center;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 10px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #888;
+    color: white;
+    outline: none;
+    font-size: 14px;
+}
+
+.form-control:focus {
+    border-bottom: 1px solid #d4af37;
+}
+
+.form-label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #888;
+    transition: 0.3s;
+    pointer-events: none;
+    font-family: 'Righteous';
+}
+
+.form-control:focus + .form-label,
+.form-control:not(:placeholder-shown) + .form-label {
+    top: -5px;
+    font-size: 12px;
+    color: #d4af37;
+}
+select.form-control option {
+    background-color: black;
+  }
+
+.dropdown {
+    position: relative;
+}
+
+.password-icon {
+    position: absolute;
+    right: 10px;
+    top: 15px;
+    color: #888;
+    cursor: pointer;
+}
+
+.btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #d4af37;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 20px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #c09b2d;
+}
+
+.login-link {
+    margin-bottom: 20px;
+    color: #888;
+    font-size: 12px;
+}
+
+.login-link a {
+    color: #d4af37;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
