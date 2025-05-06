@@ -1,24 +1,33 @@
 body {
+    background: linear-gradient(
+        to bottom,
+        #F1F8D9 0%,
+        #FFFFFF 59%,
+        rgba(226, 241, 179, 0.5) 100%
+    );
+    background-attachment: fixed;
+    background-size: cover;
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
 }
 
 .image-background {
-    background-image: url('images/bg2.png');
+    background-image: url('images/bg7.png');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     width: 100vw;
-    height: 100vh;
+    height: auto;
     position: relative;
     color: white;
+    flex-wrap: wrap;
 }
 
 .content-container {
-    width: 100%;
-    height: 100%;
-    padding: 20px 40px;
+    width: 100vw;
+    height: 100vh;
+    padding: 0px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -28,6 +37,20 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 10px 20px;
+    margin: 30px;
+    margin-left: 130px;
+    margin-right: 130px;
+    
+    /* Border */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 30px;
+
+    backdrop-filter: blur(10px); /* Untuk efek blur */
+    -webkit-backdrop-filter: blur(10px); /* Untuk dukungan Safari */
+
+    background: rgba(0, 0, 0, 0.4); /* Semi-transparent background */
+    color: white;
 }
 
 .logo {
@@ -51,34 +74,50 @@ body {
 
 .main-content {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: flex-end; /* ubah dari space-around ke flex-end */
+    align-items: top;
+    margin-top: 100px;
+    margin-right:150px;
     flex-wrap: wrap;
     height: 100%;
 }
 
 .text-box {
-    max-width: 400px;
+    max-width: 630px;
 }
 
 .text-box h1 {
-    font-size: 28px;
+    font-size: 48px;
     font-weight: bold;
     color: white;
 }
 
 .text-box p {
     margin: 10px 0;
+    font-size: 26px;
 }
 
 .cta-btn {
     display: inline-block;
     margin-top: 10px;
-    padding: 10px 20px;
+    padding: 15px 30px;
     border: 2px solid #ffff66;
     border-radius: 25px;
-    background-color: transparent;
+    background-color: rgba(255, 255, 255, 0.2); /* semi-transparan */
     color: white;
     text-decoration: none;
     font-weight: bold;
+    font-size: 20px;
+    backdrop-filter: blur(10px); /* efek blur latar belakang */
+    transition: all 0.3s ease;
 }
+
+/* Efek hover */
+.cta-btn:hover {
+    transform: scale(1.05); /* sedikit membesar */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* bayangan lebih dalam */
+    background-color: rgba(255, 255, 255, 0.4); /* lebih terang saat hover */
+    color: #333; /* ubah warna teks saat hover */
+    cursor: pointer;
+}
+
