@@ -12,6 +12,15 @@
 <body>
     <div class="container">
         <div class="image-side">
+            {% if messages %}
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {% endif %}
+
+
             <div class="form-side">
                 <br>
                 <div class="logo">
@@ -20,7 +29,8 @@
                 <h1>SELAMAT DATANG</h1>
                 <p class="subtitle">masuk dan cari tau jurusan yang sesuai denganmu</p>
                 <br>
-                <form>
+                <form method="POST">
+                    {% csrf_token %}                
                     <div class="form-group">
                         <input type="email" class="form-control" id="email" placeholder=" ">
                         <label for="email" class="form-label">Alamat Email</label>

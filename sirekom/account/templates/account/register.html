@@ -18,8 +18,8 @@
                 </div>
                 <h1>BUAT AKUN</h1>
                 <p class="subtitle">buat akunmu dan mulai cari tau jurusan yang sesuai denganmu</p>
-                
-                <form>
+                <form method="POST">
+                    {% csrf_token %}                
                     <div class="form-group">
                         <input type="text" class="form-control" id="nama" placeholder=" ">
                         <label for="nama" class="form-label">Nama Anda</label>

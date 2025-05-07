@@ -1,29 +1,36 @@
-# views.py
+# account/views.py
 from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate, logout
+from .forms import RegisterForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
 
 def register_view(request):
     if request.method == 'POST':
-        nama = request.POST.get('nama')
-        asal = request.POST.get('asal')
-        gender = request.POST.get('gender')
+        # misal ambil data dari form
+        full_name = request.POST.get('full_name')
         email = request.POST.get('email')
         password = request.POST.get('password')
-        # Tambahkan proses simpan ke DB sesuai model kamu
-        return redirect('login')  # Redirect ke halaman login
-    return render(request, 'account/register.html')
+
+        # Simpan data user (sesuaikan dengan model dan formmu)
+        user = CustomUser.objects.create_user(full_name=full_name, email=email, password=password)
+
+        # Tambahkan pesan sukses
+        messages.success(request, 'Pendaftaran berhasil! Silakan login.')
+        
+        return redirect('masuk')  # sesuaikan dengan nama URL login
 
 def masuk_view(request):
     if request.method == 'POST':
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-
-        user = authenticate(request, username=email, password=password)
-        if user is not None:
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
             login(request, user)
-            return redirect('dashboard')  # Ganti sesuai nama route dashboard kamu
-        else:
-            messages.error(request, 'Email atau kata sandi salah.')
+            return redirect('home')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'account/masuk.html', {'form': form})
 
-    return render(request, 'account/masuk.html')
+def keluar_view(request):
+    logout(request)
+    return redirect('masuk')
