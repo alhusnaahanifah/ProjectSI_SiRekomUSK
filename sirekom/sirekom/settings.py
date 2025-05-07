@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'landing',
     'account',
+    'prodi',
 ]
 
 MIDDLEWARE = [
@@ -122,3 +123,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# settings.py (di bagian bawah file atau di awal file sesuai preferensimu)
+from mongoengine import connect
+
+connect(
+    db="sirekom",     # ganti sesuai nama database kamu
+    host="mongodb://localhost:27017/sirekom"  # default MongoDB lokal
+)
