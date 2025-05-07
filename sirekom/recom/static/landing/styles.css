@@ -1,0 +1,534 @@
+body {
+    background: linear-gradient(
+        to bottom,
+        #F1F8D9 0%,
+        #FFFFFF 59%,
+        rgba(226, 241, 179, 0.5) 100%
+    );
+    background-attachment: fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.image-background {
+    background-image: url('images/bg7.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 100vw;
+    height: auto;
+    position: relative;
+    color: white;
+    flex-wrap: wrap;
+}
+
+.content-container {
+    width: 100vw;
+    height: 100vh;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    margin: 30px;
+    margin-left: 130px;
+    margin-right: 130px;
+    
+    /* Border */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 30px;
+
+    backdrop-filter: blur(10px); /* Untuk efek blur */
+    -webkit-backdrop-filter: blur(10px); /* Untuk dukungan Safari */
+
+    background: rgba(0, 0, 0, 0.4); /* Semi-transparent background */
+    color: white;
+}
+
+.logo {
+    height: 40px;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 18px;
+    margin-left: 10px;
+}
+
+.login-btn {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 10px 20px;
+    border: 1px solid #ffff99;
+    border-radius: 25px;
+    color: #ffff99;
+    text-decoration: none;
+}
+
+.main-content {
+    display: flex;
+    justify-content: flex-end; /* ubah dari space-around ke flex-end */
+    align-items: top;
+    margin-top: 100px;
+    margin-right:150px;
+    flex-wrap: wrap;
+    height: 100%;
+}
+
+.text-box {
+    max-width: 630px;
+}
+
+.text-box h1 {
+    font-size: 45px;
+    font-weight: bold;
+    color: white;
+}
+
+.text-box p {
+    margin: 10px 0;
+    font-size: 22px;
+}
+
+.cta-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 15px 30px;
+    border: 2px solid #ffff66;
+    border-radius: 25px;
+    background-color: rgba(255, 255, 255, 0.2); /* semi-transparan */
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 20px;
+    backdrop-filter: blur(10px); /* efek blur latar belakang */
+    transition: all 0.3s ease;
+}
+
+/* Efek hover */
+.cta-btn:hover {
+    transform: scale(1.05); /* sedikit membesar */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* bayangan lebih dalam */
+    background-color: rgba(255, 255, 255, 0.4); /* lebih terang saat hover */
+    color: #333; /* ubah warna teks saat hover */
+    cursor: pointer;
+}
+
+.container {
+    max-width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+h1 {
+    color: #000;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+h2 {
+    color: #000;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 50px;
+}
+
+.cards-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+.card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    width: 300px;
+    min-height: 220px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.icon-wrapper {
+    width: 80px;
+    height: 80px;
+    background-color: #f9d35b;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -40px;
+    margin-bottom: 20px;
+}
+
+.icon {
+    width: 40px;
+    height: 40px;
+    color: #333;
+}
+
+.card h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #222;
+}
+
+.card p {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+}
+
+.top-bar {
+    height: 40px;
+    background-color: #8B4513;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .cards-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    h1 {
+        font-size: 28px;
+    }
+    
+    h2 {
+        font-size: 24px;
+        margin-bottom: 30px;
+    }
+}
+
+ /* Testimonial Section */
+ .testimonial-section {
+    padding: 60px 0;
+    position: relative;
+    color: #fff;
+    overflow: hidden;
+    margin: 160px;
+    border-radius: 20px 20px 0 0;
+    max-width: auto;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    background-image: url("images/bgtestimon.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+}
+
+.section-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 40px;
+    position: relative;
+    color: #fff;
+}
+
+.testimonial-section .section-title {
+    color: #fff;
+}
+
+.testimonials-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    position: relative;
+
+}
+
+.testimonial-card {
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 15px;
+    width: 40%;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.testimonial-card.left {
+    align-self: flex-start;
+    color: #000;
+    padding-left:30px;
+    padding-right: 40px;
+}
+
+.testimonial-card.right {
+    align-self: flex-end;
+    color: #000;
+    padding-left:50px;
+    padding-right: 10px;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.profile-img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    /* margin-left: 40px; */
+    margin-right: 15px; 
+}
+
+.profile-name {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.testimonial-text {
+    font-size: 16px;
+    line-height: 1.5;
+    /* margin-left: 40px;
+    margin-right: 40px; */
+}
+
+.bubble-dot {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(to right, #E9E4C0 0%, #ECC141 100%);
+    border-radius: 50%;
+}
+
+.bubble-dot.left {
+    position: absolute;     /* pastikan elemen bisa diposisikan */
+    top: 50%;               /* pindah ke 50% tinggi kontainer */
+    transform: translateY(-50%); /* geser balik setengah tinggi elemen */
+    justify-content: center;
+    right: -20px;
+}
+
+.bubble-dot.right {
+    bposition: absolute;     /* pastikan elemen bisa diposisikan */
+    top: 50%;               /* pindah ke 50% tinggi kontainer */
+    transform: translateY(-50%); /* geser balik setengah tinggi elemen */
+    justify-content: center;
+    left: -20px;
+}
+
+/* Meet Our Teams Section */
+
+.teams-title {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 40px;
+    position: relative;
+    color: #000;
+}
+.teams-section {
+    padding-bottom: 60px;
+    position: relative;
+}
+
+.teams-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.team-card {
+    background: linear-gradient(to right, #f9d35b, #f5e5b3);
+    border-radius: 30px;
+    padding: 15px 25px;
+    width: 50%;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team-card.left-team {
+    align-self: flex-start;
+    background: linear-gradient(to right, #FBFBFB, #ECC141);
+}
+
+.team-card.right-team {
+    align-self: flex-end;
+    background: linear-gradient(to right, #ECC141, #FBFBFB);
+}
+
+.team-name {
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.team-role {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Footer Section */
+.footer {
+    background-color: #1e1e1e;
+    color: #fff;
+    padding: 40px 0 20px;
+    margin-top: 60px;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 30px;
+    flex-wrap: wrap;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.logo-img {
+    width: 120px;
+    height: 90px;
+    margin-right: 10px;
+}
+
+.logo-text {
+    font-size: 18px;
+    font-weight: 600;
+    color: #f9d35b;
+}
+
+.footer-contact, .footer-address {
+    line-height: 1.8;
+    font-size: 14px;
+    color: #F3D479;
+}
+
+.partner-title {
+    color: #f9d35b;
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.partner-logo {
+    margin-top: 15px;
+}
+
+.copyright {
+    text-align: center;
+    margin-top: 40px;
+    padding: 15px 0;
+    border-top: 1px solid #333;
+    font-size: 12px;
+    color: #888;
+}
+
+.top-bar {
+    height: 40px;
+    background-color: #8B4513;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .cards-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    h1 {
+        font-size: 28px;
+    }
+    
+    h2 {
+        font-size: 24px;
+        margin-bottom: 30px;
+    }
+
+    .testimonial-card, .team-card {
+        width: 90%;
+    }
+
+    .footer-container {
+        flex-direction: column;
+        gap: 30px;
+    }
+}
+
+/* Hiasan daun di pojok kiri bawah */
+.leaf-decoration {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200px;
+    height: 200px;
+    background-image: url('images/bgbunga.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: -1;
+    opacity: 0.7;
+}
+
+/* Hiasan lingkaran di pojok kanan atas */
+.circle-decoration {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 200px;
+    height: 200px;
+    background-image: url('images/bglogo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: -1;
+    opacity: 0.6;
+}
+
+@media (max-width: 600px) {
+    .card {
+        width: 100%;
+    }
+    
+    .leaf-decoration, 
+    .circle-decoration{
+        opacity: 0.3; /* Mengurangi opacity hiasan pada layar kecil */
+    }
+}
