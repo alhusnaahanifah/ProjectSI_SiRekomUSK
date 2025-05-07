@@ -16,29 +16,10 @@
                 <div class="logo">
                     <img src="../../static/account/images/Logobawah.png" alt="Logo" class="logo">
                 </div>
-                <h1>BUAT AKUN</h1>
-                <p class="subtitle">buat akunmu dan mulai cari tau jurusan yang sesuai denganmu</p>
+                <h1>SELAMAT DATANG</h1>
+                <p class="subtitle">masuk dan cari tau jurusan yang sesuai denganmu</p>
                 
                 <form>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="nama" placeholder=" ">
-                        <label for="nama" class="form-label">Nama Anda</label>
-                    </div>
-                    
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="sekolah" placeholder=" ">
-                        <label for="sekolah" class="form-label">Asal Sekolah</label>
-                    </div>
-                    
-                    <div class="form-group dropdown">
-                        <select required class="form-control" id="kelamin">
-                            <option value="" disabled selected hidden></option>
-                            <option value="laki-laki">Laki-laki</option>
-                            <option value="perempuan">Perempuan</option>
-                        </select>
-                        <label for="kelamin" class="form-label">Jenis Kelamin</label>                        
-                    </div>
-                    
                     <div class="form-group">
                         <input type="email" class="form-control" id="email" placeholder=" ">
                         <label for="email" class="form-label">Alamat Email</label>
@@ -50,11 +31,11 @@
                         <i id="togglePassword" class="fa-solid fa-eye password-icon"></i>
                     </div>
                     
-                    <button type="submit" class="btn">Buat Akun</button>
+                    <button type="submit" class="btn">Masuk</button>
                     
                     <div class="login-link">
-                        <span>Sudah memiliki akun? </span>
-                        <a href="{% url 'masuk' %}">Masuk</a>
+                        <span>Belum memiliki akun? </span>
+                        <a href="{% url 'register' %}">Daftar</a>
                     </div>
                 </form>
             </div>
