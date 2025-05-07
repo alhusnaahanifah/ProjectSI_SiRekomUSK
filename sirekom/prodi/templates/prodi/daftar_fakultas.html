@@ -1,0 +1,16 @@
+{% block content %}
+<h2>Daftar Fakultas</h2>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px;">
+  {% for fakultas in fakultas_list %}
+    <div style="border: 1px solid #ccc; padding: 10px; width: 250px;">
+      <strong>{{ fakultas.nama }}</strong><br>
+      {% if fakultas.gambar %}
+        <img src="{{ MEDIA_URL }}{{ fakultas.gambar }}" alt="{{ fakultas.nama }}" style="width: 100%; max-height: 150px; object-fit: cover;">
+      {% else %}
+        <p><em>Tidak ada gambar</em></p>
+      {% endif %}
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

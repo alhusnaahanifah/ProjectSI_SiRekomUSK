@@ -131,3 +131,8 @@ connect(
     db="sirekom",     # ganti sesuai nama database kamu
     host="mongodb://localhost:27017/sirekom"  # default MongoDB lokal
 )
+
+import os
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

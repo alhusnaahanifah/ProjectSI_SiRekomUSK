@@ -14,7 +14,7 @@
             </div>
             <div class="user-menu">
                 <div class="dropdown">Beranda</div>
-                <div class="user-icon"><img src="../../static/landing/images/iconprofil.png" alt="Profil"></div>
+                <div class="user-icon"><img src="../../static/prodi/images/iconprofil.png" alt="Profil"></div>
             </div>
         </header>
 
@@ -26,7 +26,7 @@
                         Selamat Datang, <span class="highlight">Elna</span> 
                         <span class="welcome-emoji">✨</span>
                     </h1>
-                    <button class="start-test-button">Mulai Test</button>
+                        
                 </div>
                 <p class="subheading">
                     <span>📍</span> Yuk, temukan program studi impianmu di USK! <span>🌟</span>
@@ -36,24 +36,26 @@
             <div class="test-results">
                 <div class="results-left">
                     <div class="results-heading">
-                        <div class="grad-cap-icon">🎓</div>
+                        <div class="grad-cap-icon"><img src="../../static/prodi/images/iconhasiltest.png" alt="hasil"></div>
                         <h2 class="results-title">Hasil Test Minat</h2>
                     </div>
                 </div>
-                <div class="recommendation-heading">Rekomendasi Prodi paling sesuai</div>
-                <div class="results-right">
-                    <div class="score-cards">
-                        <div class="score-card">
-                            <div class="score">90%</div>
-                            <div class="score-label">S1 Ilmu Komunikasi</div>
-                        </div>
-                        <div class="score-card">
-                            <div class="score">95%</div>
-                            <div class="score-label">S1 Ilmu Hukum</div>
-                        </div>
-                        <div class="score-card">
-                            <div class="score">89%</div>
-                            <div class="score-label">S1 Ilmu Politik</div>
+                <div class="results-heading">
+                    <div class="recommendation-heading">Rekomendasi Prodi paling sesuai</div>
+                    <div class="results-right">
+                        <div class="score-cards">
+                            <div class="score-card">
+                                <div class="score">90%</div>
+                                <div class="score-label">S1 Ilmu Komunikasi</div>
+                            </div>
+                            <div class="score-card">
+                                <div class="score">95%</div>
+                                <div class="score-label">S1 Ilmu Hukum</div>
+                            </div>
+                            <div class="score-card">
+                                <div class="score">89%</div>
+                                <div class="score-label">S1 Ilmu Politik</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -62,113 +64,21 @@
             <div class="faculty-section">
                 <h2 class="faculty-heading">Fakultas Universitas Syiah Kuala</h2>
                 <div class="faculty-grid">
+                    {% for fakultas in fakultas_list %}
                     <!-- Faculty Card 1 -->
                     <div class="faculty-card">
-                        <img src="/api/placeholder/350/150" alt="Fakultas Ekonomi dan Bisnis" class="faculty-image">
+                        {% if fakultas.gambar %}
+                            <img src="{{ MEDIA_URL }}{{ fakultas.gambar }}" alt="{{ fakultas.nama }}" class="faculty-image">
+                        {% else %}
+                            <p><em>Tidak ada gambar</em></p>
+                        {% endif %}
                         <div class="faculty-info">
-                            <h3 class="faculty-name">Fakultas Ekonomi dan Bisnis (FEB)</h3>
+                            <h3 class="faculty-name">{{ fakultas.nama }}</h3>
                             <button class="faculty-button">Lihat Prodi</button>
                         </div>
-                    </div>
+                    </div> 
+                    {% endfor %}                   
 
-                    <!-- Faculty Card 2 -->
-                    <div class="faculty-card">
-                        <img src="/api/placeholder/350/150" alt="Fakultas Kedokteran Hewan" class="faculty-image">
-                        <div class="faculty-info">
-                            <h3 class="faculty-name">Fakultas Kedokteran Hewan (FKH)</h3>
-                            <button class="faculty-button">Lihat Prodi</button>
-                        </div>
-                    </div>
-
-                    <!-- Faculty Card 3 -->
-                    <div class="faculty-card">
-                        <img src="/api/placeholder/350/150" alt="Fakultas Hukum" class="faculty-image">
-                        <div class="faculty-info">
-                            <h3 class="faculty-name">Fakultas Hukum (FH)</h3>
-                            <button class="faculty-button">Lihat Prodi</button>
-                        </div>
-                    </div>
-
-                    <!-- Faculty Card 4 -->
-                    <div class="faculty-card">
-                        <img src="/api/placeholder/350/150" alt="Fakultas Teknik" class="faculty-image">
-                        <div class="faculty-info">
-                            <h3 class="faculty-name">Fakultas Teknik (FT)</h3>
-                            <button class="faculty-button">Lihat Prodi</button>
-                        </div>
-                    </div>
-
-                    <!-- Faculty Card 5 -->
-                    <div class="faculty-card">
-                        <img src="/api/placeholder/350/150" alt="Fakultas Pertanian" class="faculty-image">
-                        <div class="faculty-info">
-                            <h3 class="faculty-name">Fakultas Pertanian (FP)</h3>
-                            <button class="faculty-button">Lihat Prodi</button>
-                        </div>
-                    </div>
-
-                    <!-- Faculty Card 6 -->
-                    <div class="faculty-card">
-                        <img src="/api/placeholder/350/150" alt="Fakultas Keguruan dan Ilmu Pendidikan" class="faculty-image">
-                        <div class="faculty-info">
-                            <h3 class="faculty-name">Fakultas Keguruan dan Ilmu Pendidikan (FKIP)</h3>
-                            <button class="faculty-button">Lihat Prodi</button>
-                        </div>
-                    </div>
-
-                    <!-- Faculty Card 7 -->
-                    <div class="faculty-card">
-                        <img src="/api/placeholder/350/150" alt="Fakultas Kedokteran" class="faculty-image">
-                        <div class="faculty-info">
-                            <h3 class="faculty-name">Fakultas Kedokteran (FK)</h3>
-                            <button class="faculty-button">Lihat Prodi</button>
-                        </div>
-                    </div>
-
-                    <!-- Faculty Card 8 -->
-                    <div class="faculty-card">
-                        <img src="/api/placeholder/350/150" alt="Fakultas Matematika dan Ilmu Pengetahuan Alam" class="faculty-image">
-                        <div class="faculty-info">
-                            <h3 class="faculty-name">Fakultas Matematika dan Ilmu Pengetahuan Alam (FMIPA)</h3>
-                            <button class="faculty-button">Lihat Prodi</button>
-                        </div>
-                    </div>
-
-                    <!-- Faculty Card 9 -->
-                    <div class="faculty-card">
-                        <img src="/api/placeholder/350/150" alt="Fakultas Ilmu Sosial dan Ilmu Politik" class="faculty-image">
-                        <div class="faculty-info">
-                            <h3 class="faculty-name">Fakultas Ilmu Sosial dan Ilmu Politik (FISIP)</h3>
-                            <button class="faculty-button">Lihat Prodi</button>
-                        </div>
-                    </div>
-
-                    <!-- Faculty Card 10 -->
-                    <div class="faculty-card">
-                        <img src="/api/placeholder/350/150" alt="Fakultas Kelautan dan Perikanan" class="faculty-image">
-                        <div class="faculty-info">
-                            <h3 class="faculty-name">Fakultas Kelautan dan Perikanan (FKP)</h3>
-                            <button class="faculty-button">Lihat Prodi</button>
-                        </div>
-                    </div>
-
-                    <!-- Faculty Card 11 -->
-                    <div class="faculty-card">
-                        <img src="/api/placeholder/350/150" alt="Fakultas Keperawatan" class="faculty-image">
-                        <div class="faculty-info">
-                            <h3 class="faculty-name">Fakultas Keperawatan</h3>
-                            <button class="faculty-button">Lihat Prodi</button>
-                        </div>
-                    </div>
-
-                    <!-- Faculty Card 12 -->
-                    <div class="faculty-card">
-                        <img src="/api/placeholder/350/150" alt="Fakultas Kedokteran Gigi" class="faculty-image">
-                        <div class="faculty-info">
-                            <h3 class="faculty-name">Fakultas Kedokteran Gigi (FKG)</h3>
-                            <button class="faculty-button">Lihat Prodi</button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </main>
