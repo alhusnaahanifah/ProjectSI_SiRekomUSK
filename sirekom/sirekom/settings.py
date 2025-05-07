@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'landing',
     'account',
     'prodi',
+    'recom',
 ]
 
 MIDDLEWARE = [
