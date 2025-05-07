@@ -7,15 +7,16 @@
 
 body {
     background-color: #121212;
+    height: 100vh;
     display: flex;
-    margin: 0;
     justify-content: center;
+    align-items: center;
 }
 
 .container {
     display: flex;
     width: 100%;
-    align-items: center;
+    min-height: 50vh;
 }
 
 .image-side {
@@ -31,6 +32,11 @@ body {
 .form-side {
     width: 40%;
     background-color: rgba(100, 94, 61, 0.5);
+    margin: 50px;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -63,7 +69,7 @@ h1 {
     color: #C1C1C1;
     text-align: center;
     font-size: 12px;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
 }
 
 .form-group {
@@ -122,7 +128,7 @@ select.form-control option {
 
 .btn {
     width: 100%;
-    padding: 15px;
+    padding: 10px;
     background-color: #d4af37;
     color: #333;
     border: none;
@@ -130,6 +136,7 @@ select.form-control option {
     font-weight: bold;
     cursor: pointer;
     margin-bottom: 20px;
+    margin-top: 15px;
     font-size: 16px;
     transition: background-color 0.3s;
 }
