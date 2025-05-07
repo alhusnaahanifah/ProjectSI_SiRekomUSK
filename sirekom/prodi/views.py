@@ -8,6 +8,7 @@ from .models import Fakultas
 import os
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+from django.contrib import messages
 
 # Create your views here.
 def dashboard(request):
@@ -16,63 +17,54 @@ def dashboard(request):
 
 def tambah_prodi(request):
     if request.method == 'POST':
-        form = ProdiForm(request.POST, request.FILES)  # Pastikan request.FILES ditangani di form
+        form = ProdiForm(request.POST, request.FILES)
         if form.is_valid():
-            # Mendapatkan file yang di-upload
-            uploaded_file = request.FILES['gambar']
-            
-            # Menyimpan file gambar ke folder media
-            fs = FileSystemStorage(location=settings.MEDIA_ROOT)
-            filename = fs.save(uploaded_file.name, uploaded_file)
-            file_url = fs.url(filename)
-            mata_kuliah_list = form.cleaned_data['mata_kuliah_unggulan'].split(',')
-            prospek_kerja_list = form.cleaned_data['prospek_kerja'].split(',')
+            data = form.cleaned_data
 
-
-            # Membuat instance Prodi dan menyimpan ke database
-            prodi = Prodi(
-                prodi_id=form.cleaned_data['prodi_id'],
-                nama_prodi=form.cleaned_data['nama_prodi'],
-                fakultas=form.cleaned_data['fakultas'],
-                akreditasi=form.cleaned_data['akreditasi'],
-                deskripsi=form.cleaned_data['deskripsi'],
-                mata_kuliah_unggulan=[item.strip() for item in mata_kuliah_list],
-                prospek_kerja=[item.strip() for item in prospek_kerja_list],
-                url_resmi=form.cleaned_data['url_resmi'],
-                gambar=file_url,  # Menyimpan URL gambar
-            )
-            prodi.save()
-
-            return redirect('daftar_prodi')  # Redirect ke halaman prodi
-
+            # Cek apakah prodi_id sudah ada
+            if Prodi.objects(prodi_id=data['prodi_id']).first():
+                form.add_error('prodi_id', 'ID Prodi sudah ada.')
+            else:
+                # Ambil objek Fakultas
+                fakultas_obj = Fakultas.objects(fakultas_id=data['fakultas']).first()
+                if not fakultas_obj:
+                    form.add_error('fakultas', 'Fakultas tidak ditemukan.')
+                else:
+                    # Upload gambar jika ada
+                    gambar = None
+                    if 'gambar' in request.FILES:
+                        uploaded_file = request.FILES['gambar']
+                        fs = FileSystemStorage(location=settings.MEDIA_ROOT)
+                        filename = fs.save(uploaded_file.name, uploaded_file)
+                        gambar = fs.url(filename)
+                        
+                        mata_kuliah_list = form.cleaned_data['mata_kuliah_unggulan'].split(',')
+                        prospek_kerja_list = form.cleaned_data['prospek_kerja'].split(',')
+                        
+                    # Buat dan simpan objek Prodi
+                    prodi = Prodi(
+                        prodi_id=data['prodi_id'],
+                        nama_prodi=data['nama_prodi'],
+                        fakultas=fakultas_obj,
+                        akreditasi=data.get('akreditasi'),
+                        deskripsi=data.get('deskripsi'),
+                        mata_kuliah_unggulan=[item.strip() for item in mata_kuliah_list],
+                        prospek_kerja=[item.strip() for item in prospek_kerja_list],
+                        url_resmi=data.get('url_resmi'),
+                        gambar=gambar,
+                    )
+                    prodi.save()
+                    messages.success(request, "Prodi berhasil ditambahkan.")
+                    return redirect('daftar_prodi')
     else:
         form = ProdiForm()
 
     return render(request, 'prodi/tambah_prodi.html', {'form': form})
 
 
-
 def daftar_prodi(request):
-    fakultas_terpilih = request.GET.get('fakultas')
-    
-    if fakultas_terpilih:
-        prodis = Prodi.objects(fakultas=fakultas_terpilih)
-    else:
-        prodis = Prodi.objects()
-
-    # Buat group by fakultas
-    grouped = {}
-    for prodi in prodis:
-        grouped.setdefault(prodi.fakultas, []).append(prodi)
-
-    # Daftar fakultas untuk dropdown
-    semua_fakultas = Prodi.objects.distinct('fakultas')
-
-    return render(request, 'prodi/daftar_prodi.html', {
-        'grouped': grouped,
-        'semua_fakultas': semua_fakultas,
-        'fakultas_terpilih': fakultas_terpilih
-    })
+    semua_prodi = Prodi.objects.select_related()
+    return render(request, 'prodi/daftar_prodi.html', {'prodi_list': semua_prodi})
 
 
 def tambah_fakultas(request):

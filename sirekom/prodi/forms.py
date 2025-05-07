@@ -29,7 +29,7 @@ class ProdiForm(forms.Form):
         max_length=200
     )
     
-    fakultas = forms.ModelChoiceField(queryset=Fakultas.objects.all())
+    fakultas = forms.CharField(label="ID Fakultas")  # ID, bukan object
 
     akreditasi = forms.CharField(
         label="Akreditasi", 

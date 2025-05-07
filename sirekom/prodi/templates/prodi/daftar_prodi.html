@@ -1,29 +1,26 @@
-<h2>Daftar Program Studi</h2>
 
-<!-- Dropdown Fakultas -->
-<form method="get">
-  <label for="fakultas">Pilih Fakultas:</label>
-  <select name="fakultas" onchange="this.form.submit()">
-    <option value="">-- Semua Fakultas --</option>
-    {% for f in semua_fakultas %}
-      <option value="{{ f }}" {% if fakultas_terpilih == f %}selected{% endif %}>
-        {{ f }}
-      </option>
-    {% endfor %}
-  </select>
-</form>
+{% block content %}
+  <h2>Daftar Program Studi</h2>
 
-<!-- Tampilkan per fakultas -->
-{% for fakultas, daftar in grouped.items %}
-  <h3>{{ fakultas }}</h3>
   <div style="display: flex; flex-wrap: wrap; gap: 20px;">
-    {% for prodi in daftar %}
-      <div style="border: 1px solid #ddd; padding: 10px; width: 250px;">
+    {% for prodi in prodi_list %}
+      <div style="border: 1px solid #ccc; padding: 15px; width: 280px;">
         <strong>{{ prodi.nama_prodi }}</strong><br>
+        <small>Fakultas: {{ prodi.fakultas.nama }}</small><br>
         Akreditasi: {{ prodi.akreditasi }}<br>
-        <img src= "{{ MEDIA_URL }}{{ prodi.gambar }}" alt="{{ prodi.nama_prodi }}" style="width: 100%; max-height: 150px; object-fit: cover;"><br>
-        <small><a href="{{ prodi.url_resmi }}" target="_blank">Lihat Website</a></small>
+
+        {% if prodi.gambar %}
+          <img src="{{ prodi.gambar }}" alt="{{ prodi.nama_prodi }}" style="width: 100%; max-height: 150px; object-fit: cover; margin-top: 10px;">
+        {% else %}
+          <p><i>Tidak ada gambar</i></p>
+        {% endif %}
+
+        {% if prodi.url_resmi %}
+          <br><a href="{{ prodi.url_resmi }}" target="_blank">Lihat Website Resmi</a>
+        {% endif %}
       </div>
+    {% empty %}
+      <p>Belum ada program studi yang tersedia.</p>
     {% endfor %}
   </div>
-{% endfor %}
+{% endblock %}
