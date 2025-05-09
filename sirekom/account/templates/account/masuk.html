@@ -12,14 +12,6 @@
 <body>
     <div class="container">
         <div class="image-side">
-            {% if messages %}
-            {% for message in messages %}
-                <div class="alert {{ message.tags }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-            {% endif %}
-
 
             <div class="form-side">
                 <br>
@@ -27,17 +19,24 @@
                     <img src="../../static/account/images/Logobawah.png" alt="Logo" class="logo">
                 </div>
                 <h1>SELAMAT DATANG</h1>
+                {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% endif %}
                 <p class="subtitle">masuk dan cari tau jurusan yang sesuai denganmu</p>
                 <br>
                 <form method="POST">
                     {% csrf_token %}                
                     <div class="form-group">
-                        <input type="email" class="form-control" id="email" placeholder=" ">
+                        <input type="email" name="email" class="form-control" id="email" placeholder=" ">
                         <label for="email" class="form-label">Alamat Email</label>
                     </div>
                     
                     <div class="form-group">
-                        <input type="password" class="form-control" id="password" placeholder=" ">
+                        <input type="password" name="password" class="form-control" id="password" placeholder=" ">
                         <label for="password" class="form-label">Kata Sandi</label>
                         <i id="togglePassword" class="fa-solid fa-eye password-icon"></i>
                     </div>

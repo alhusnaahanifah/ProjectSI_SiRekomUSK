@@ -1,10 +1,15 @@
-from django.db import models
+# accounts/models.py
+from mongoengine import Document, StringField, BooleanField
 
-# Create your models here.
-# account/models.py
-from django.contrib.auth.models import AbstractUser
-from django.db import models
+class CustomUser(Document):
+    email = StringField(required=True, unique=True)
+    password = StringField(required=True)
+    nama = StringField()
+    is_siswa = BooleanField(default=False)
+    is_admin_custom = BooleanField(default=False)
 
-class CustomUser(AbstractUser):
-    asal_sekolah = models.CharField(max_length=255)
-    jenis_kelamin = models.CharField(max_length=20, choices=[('laki-laki', 'Laki-laki'), ('perempuan', 'Perempuan')])
+    meta = {'collection': 'user'}
+
+    siswa_id = StringField()
+    sekolah_asal = StringField()
+    jenis_kelamin = StringField(choices=["L", "P"])

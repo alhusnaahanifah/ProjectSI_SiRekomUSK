@@ -1,9 +1,8 @@
-# account/forms.py
 from django import forms
-from .models import CustomUser
-from django.contrib.auth.forms import UserCreationForm
 
-class RegisterForm(UserCreationForm):
-    class Meta:
-        model = CustomUser
-        fields = ['username', 'asal_sekolah', 'jenis_kelamin', 'email', 'password1', 'password2']
+class SiswaRegisterForm(forms.Form):
+    nama = forms.CharField(max_length=150)
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput)
+    sekolah_asal = forms.CharField(max_length=100)
+    jenis_kelamin = forms.ChoiceField(choices=[('L', 'Laki-laki'), ('P', 'Perempuan')])
