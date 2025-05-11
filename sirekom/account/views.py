@@ -51,11 +51,23 @@ def login_siswa(request):
             user = CustomUser.objects.get(email=email)
             if user and check_password(password, user.password):
                 request.session['user_id'] = str(user.id)
-                return redirect('dashboard_siswa')  # ✅ Tidak ada pesan sukses
+                request.session['user_email'] = user.email
+                request.session['is_admin_custom'] = user.is_admin_custom
+                request.session['is_siswa'] = user.is_siswa
+                request.session['user_nama'] = user.nama
+            # ✅ Redirect berdasarkan peran
+            if user.is_admin_custom:
+                return redirect('dashboard_admin')
+            elif user.is_siswa:
+                return redirect('dashboard_siswa')
             else:
                 messages.error(request, 'Email atau password salah!')
         except CustomUser.DoesNotExist:
             messages.error(request, 'Akun tidak ditemukan.')
 
     return render(request, 'account/masuk.html')
+
+def logout_view(request):
+    request.session.flush()  # Hapus semua data session
+    return redirect('login')
 

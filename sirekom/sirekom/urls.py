@@ -25,6 +25,7 @@ urlpatterns = [
     path('', include('account.urls')),
     path('', include('prodi.urls')),
     path('', include('recom.urls')),
+    path('', include('adminpanel.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Mengatur URL untuk akses media (gambar, file, dll)

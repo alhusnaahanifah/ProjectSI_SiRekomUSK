@@ -1,0 +1,144 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'adminpanel/styles.css' %}">
+    <title>SIREKOM USK - Admin Dashboard</title>
+</head>
+<body>
+    <!-- header -->
+    <div class="sidebar">
+        <div class="logo-container">
+            <img src="{% static 'landing/images/Logobawah.png' %}" alt="SIREKOM USK Logo" class="logo">
+        </div>
+        
+        <nav class="sidebar-menu">
+            <a href="#" class="menu-item active">
+                <i><img src="{% static 'adminpanel/images/iconsbdash.png' %}" alt="icon Dashboard"></i> Dashboard
+            </a>
+            <a href="#" class="menu-item">
+                <i><img src="{% static 'adminpanel/images/iconsbprodi.png' %}" alt="icon prodi"></i> Program Studi
+            </a>
+            <a href="#" class="menu-item">
+                <i><img src="{% static 'adminpanel/images/iconsbtest.png' %}" alt="icon test"></i> Pertanyaan Tes Minat
+            </a>
+            <a href="#" class="menu-item">
+                <i><img src="{% static 'adminpanel/images/iconsbpengguna.png' %}" alt="icon pengguna"></i> Pengguna
+            </a>
+        </nav>
+        
+        <button class="logout-btn">
+            <i style="margin-right: 5px;"><img src="{% static 'adminpanel/images/iconkeluar.png' %}" alt="icon keluar"></i> Keluar
+        </button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <div class="user-profile">
+                <span class="user-name">{{user.nama}}</span>
+                <div class="avatar">
+                    <i><img src="{% static 'adminpanel/images/iconprofil.png' %}" alt="icon profil"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="welcome">
+            <h1 class="welcome-text">WELLCOME BACK, {{user.nama}}</h1>
+            <div class="date-display">
+                <i style="margin-right: 5px;"><img src="{% static 'adminpanel/images/iconkalender.png' %}" alt="icon kalender"></i> 24 April 2025
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon"><img src="{% static 'adminpanel/images/iconpengguna.png' %}" alt="icon pengguna"></div>
+                <div class="stat-number">478</div>
+                <div class="stat-title">Pengguna</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><img src="{% static 'adminpanel/images/iconprodi.png' %}" alt="icon prodi"></div>
+                <div class="stat-number">64</div>
+                <div class="stat-title">Program Studi</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><img src="{% static 'adminpanel/images/icontestimoni.png' %}" alt="icon testimoni"></div>
+                <div class="stat-number">100</div>
+                <div class="stat-title">Testimoni</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><img src="{% static 'adminpanel/images/icontest.png' %}" alt="icon test"></div>
+                <div class="stat-number">413</div>
+                <div class="stat-title">Telah Ikut Tes</div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-container">
+            <div class="chart-card">
+                <div class="chart-title">Program Studi dengan Peminat Terbanyak</div>
+                <div class="bar-chart">
+                    <div class="bar" style="height: 60%;">
+                        <div class="bar-label">Informatika</div>
+                    </div>
+                    <div class="bar" style="height: 48%;">
+                        <div class="bar-label">Kedokteran</div>
+                    </div>
+                    <div class="bar" style="height: 80%;">
+                        <div class="bar-label">Hukum</div>
+                    </div>
+                    <div class="bar" style="height: 30%;">
+                        <div class="bar-label">Arsitektur</div>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title">Statistik Mingguan Pengguna yang Mengikuti Tes</div>
+                <div class="line-chart">
+                    <!-- Y-axis labels -->
+                    <div class="y-axis">
+                        <div class="y-label">0</div>
+                        <div class="y-label">5</div>
+                        <div class="y-label">10</div>
+                        <div class="y-label">15</div>
+                        <div class="y-label">20</div>
+                        <div class="y-label">25</div>
+                    </div>
+
+                    <!-- Line chart (simplified) -->
+                    <svg width="100%" height="100%" style="overflow: visible;">
+                        <polyline 
+                            points="40,100 120,65 200,45 280,80" 
+                            class="line" 
+                        />
+                        <circle cx="40" cy="100" r="4" fill="#d4af37" />
+                        <circle cx="120" cy="65" r="4" fill="#d4af37" />
+                        <circle cx="200" cy="45" r="4" fill="#d4af37" />
+                        <circle cx="280" cy="80" r="4" fill="#d4af37" />
+                    </svg>
+
+                    <!-- X-axis labels -->
+                    <div class="x-axis">
+                        <div class="x-label">Minggu ke-1</div>
+                        <div class="x-label">Minggu ke-2</div>
+                        <div class="x-label">Minggu ke-3</div>
+                        <div class="x-label">Minggu ke-4</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // JavaScript could be added here for interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            // You could add animations, data loading, or other interactive features here
+        });
+    </script>
+</body>
+</html>

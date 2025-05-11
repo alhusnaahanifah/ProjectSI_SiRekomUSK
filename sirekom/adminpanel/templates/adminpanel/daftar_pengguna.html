@@ -1,0 +1,119 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'adminpanel/styles.css' %}">
+    <title>SIREKOM USK - Admin Dashboard</title>
+</head>
+<body>
+    <!-- header -->
+    <div class="sidebar">
+        <div class="logo-container">
+            <img src="{% static 'landing/images/Logobawah.png' %}" alt="SIREKOM USK Logo" class="logo">
+        </div>
+        
+        <nav class="sidebar-menu">
+            <a href="#" class="menu-item">
+                <i><img src="{% static 'adminpanel/images/iconsbdash.png' %}" alt="icon Dashboard"></i> Dashboard
+            </a>
+            <a href="#" class="menu-item">
+                <i><img src="{% static 'adminpanel/images/iconsbprodi.png' %}" alt="icon prodi"></i> Program Studi
+            </a>
+            <a href="#" class="menu-item">
+                <i><img src="{% static 'adminpanel/images/iconsbtest.png' %}" alt="icon test"></i> Pertanyaan Tes Minat
+            </a>
+            <a href="#" class="menu-item active">
+                <i><img src="{% static 'adminpanel/images/iconsbpengguna.png' %}" alt="icon pengguna"></i> Pengguna
+            </a>
+        </nav>
+        
+        <button class="logout-btn">
+            <i style="margin-right: 5px;"><img src="{% static 'adminpanel/images/iconkeluar.png' %}" alt="icon keluar"></i> Keluar
+        </button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <div class="user-profile">
+                <span class="user-name">{{user.nama}}</span>
+                <div class="avatar">
+                    <i><img src="{% static 'adminpanel/images/iconprofil.png' %}" alt="icon profil"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="welcome">
+            <h1 class="welcome-text">WELLCOME BACK, {{user.nama}}</h1>
+            <div class="date-display">
+                <i style="margin-right: 5px;"><img src="{% static 'adminpanel/images/iconkalender.png' %}" alt="icon kalender"></i> 24 April 2025
+            </div>
+        </div>
+
+        <!-- Users Table Section -->
+        <div class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">Daftar Pengguna</h2>
+                <div class="search-container">
+                    <img src="{% static 'adminpanel/images/iconsearch.png' %}" alt="Search" style="width: 16px; height: 16px;">
+                    <input type="text" placeholder="Cari pengguna...">
+                </div>
+            </div>
+            
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Lengkap</th>
+                        <th>Email</th>
+                        <th>Jenis Kelamin</th>
+                        <th>Sekolah Asal</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for pengguna in pengguna %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ pengguna.nama }}</td>
+                    <td>{{ pengguna.email }}</td>
+                    <td>{{ pengguna.jenis_kelamin }}</td>
+                    <td>{{ pengguna.sekolah_asal }}</td>
+                    <td>
+                        <div class="action-icons">
+                            <a href="#" class="action-icon detail-icon">
+                                <img src="{% static 'adminpanel/images/icondetail.png' %}" alt="Detail">
+                            </a>
+                            <a href="#" class="action-icon delete-icon">
+                                <img src="{% static 'adminpanel/images/icondelete.png' %}" alt="Delete">
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+            </table>
+            
+            <div class="pagination">
+                <div class="page-button active">1</div>
+                <div class="page-button">2</div>
+                <div class="page-button">3</div>
+                <div class="page-button">4</div>
+                <div class="page-button">5</div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // JavaScript could be added here for interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            // You could add animations, data loading, or other interactive features here
+        });
+    </script>
+</body>
+</html>
