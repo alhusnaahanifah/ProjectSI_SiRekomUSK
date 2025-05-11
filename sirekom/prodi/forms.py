@@ -33,7 +33,7 @@ class ProdiForm(forms.Form):
 
     akreditasi = forms.CharField(
         label="Akreditasi", 
-        max_length=10
+        max_length=15
     )
 
     deskripsi = forms.CharField(
