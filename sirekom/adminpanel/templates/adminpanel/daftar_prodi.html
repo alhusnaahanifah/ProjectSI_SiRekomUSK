@@ -1,0 +1,160 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'adminpanel/styles.css' %}">
+    <title>SIREKOM USK - Admin Dashboard</title>
+</head>
+<body>
+    <!-- header -->
+    <div class="sidebar">
+        <div class="logo-container">
+            <img src="{% static 'landing/images/Logobawah.png' %}" alt="SIREKOM USK Logo" class="logo">
+        </div>
+        
+        <nav class="sidebar-menu">
+            <a href="{% url 'dashboard_admin' %}" class="menu-item">
+                <i><img src="{% static 'adminpanel/images/iconsbdash.png' %}" alt="icon Dashboard"></i> Dashboard
+            </a>
+            <a href="#" class="menu-item active">
+                <i><img src="{% static 'adminpanel/images/iconsbprodi.png' %}" alt="icon prodi"></i> Program Studi
+            </a>
+            <a href="#" class="menu-item">
+                <i><img src="{% static 'adminpanel/images/iconsbtest.png' %}" alt="icon test"></i> Pertanyaan Tes Minat
+            </a>
+            <a href="{% url 'daftar_pengguna' %}" class="menu-item">
+                <i><img src="{% static 'adminpanel/images/iconsbpengguna.png' %}" alt="icon pengguna"></i> Pengguna
+            </a>
+        </nav>
+        
+        <button class="logout-btn">
+            <i style="margin-right: 5px;"><img src="{% static 'adminpanel/images/iconkeluar.png' %}" alt="icon keluar"></i> Keluar
+        </button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <div class="user-profile">
+                <span class="user-name">{{user.nama}}</span>
+                <div class="avatar">
+                    <i><img src="{% static 'adminpanel/images/iconprofil.png' %}" alt="icon profil"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="welcome">
+            <h1 class="welcome-text">WELLCOME BACK, {{user.nama}}</h1>
+            <div class="date-display">
+                <i style="margin-right: 5px;"><img src="{% static 'adminpanel/images/iconkalender.png' %}" alt="icon kalender"></i> 24 April 2025
+            </div>
+        </div>
+
+        <!-- Ganti konten utama untuk menampilkan data Prodi -->
+        <div class="content-section">
+            <div class="section-header">
+                <form method="get" class="search-container">
+                    <img src="{% static 'adminpanel/images/iconsearch.png' %}" alt="Search" style="width: 16px; height: 16px;">
+                    <input type="text" name="query" placeholder="Cari program studi..." value="{{ query }}">
+                </form>
+            </div>  
+            
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Prodi</th>
+                        <th>Fakultas</th>
+                        <th>Akreditasi</th>
+                        <th>URL Resmi</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for prodi in prodi %}
+                <tr>
+                    <td>{{ forloop.counter |add:offset }}</td>
+                    <td>{{ prodi.nama_prodi }}</td>
+                    <td>{{ prodi.fakultas.nama}}</td>
+                    <td>{{ prodi.akreditasi }}</td>
+                    <td><a href="{{ prodi.url_resmi }}" target="_blank">Kunjungi</a></td>
+                    <td>
+                        <div class="action-icons">
+                            <a href="#" class="action-icon detail-icon"
+                            onclick="showProdiModal(
+                                '{{ prodi.nama_prodi }}',
+                                '{{ prodi.fakultas.nama}}',
+                                '{{ prodi.akreditasi }}',
+                                '{{ prodi.deskripsi|escapejs }}',
+                                '{{ prodi.mata_kuliah_unggulan|join:", "|escapejs }}',
+                                '{{ prodi.prospek_kerja|join:", "|escapejs }}',
+                                '{{ prodi.url_resmi }}',
+                                '{{ prodi.gambar }}')">
+                                <img src="{% static 'adminpanel/images/icondetail.png' %}" alt="Detail">
+                            </a>
+                            <a href="{% url 'hapus_prodi' prodi.id %}" class="action-icon delete-icon" 
+                            onclick="return confirm('Apakah Anda yakin ingin menghapus program studi ini?');">
+                                <img src="{% static 'adminpanel/images/icondelete.png' %}" alt="Delete">
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Modal untuk detail Prodi -->
+            <div id="prodiModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Detail Program Studi</h2>
+                    <p><strong>Nama Prodi:</strong> <span id="modalNamaProdi"></span></p>
+                    <p><strong>Fakultas:</strong> <span id="modalFakultas"></span></p>
+                    <p><strong>Akreditasi:</strong> <span id="modalAkreditasi"></span></p>
+                    <p><strong>Deskripsi:</strong> <span id="modalDeskripsi"></span></p>
+                    <p><strong>Mata Kuliah Unggulan:</strong> <span id="modalMatkul"></span></p>
+                    <p><strong>Prospek Kerja:</strong> <span id="modalProspek"></span></p>
+                    <p><strong>URL Resmi:</strong> <a id="modalURL" href="#" target="_blank">Kunjungi</a></p>
+                    <div><img id="modalGambar" src="" alt="Gambar Prodi" style="width: 100%; max-height: 300px; object-fit: cover; margin-top: 10px;"></div>
+                </div>
+            </div>
+
+            <div class="pagination">
+                {% for i in page_numbers %}
+                    <a href="?page={{ i }}{% if query %}&query={{ query }}{% endif %}" class="page-button {% if i|stringformat:"s" == request.GET.page|default:"1" %}active{% endif %}">
+                        {{ i }}
+                    </a>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <script>
+            function showProdiModal(nama, fakultas, akreditasi, deskripsi, matkul, prospek, url, gambar) {
+                document.getElementById('modalNamaProdi').innerText = nama;
+                document.getElementById('modalFakultas').innerText = fakultas;
+                document.getElementById('modalAkreditasi').innerText = akreditasi;
+                document.getElementById('modalDeskripsi').innerText = deskripsi;
+                document.getElementById('modalMatkul').innerText = matkul;
+                document.getElementById('modalProspek').innerText = prospek;
+                document.getElementById('modalURL').href = url;
+                document.getElementById('modalGambar').src = gambar;
+                document.getElementById('prodiModal').style.display = 'block';
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const inputQuery = document.querySelector('input[name="query"]');
+                inputQuery.addEventListener('input', function() {
+                    if (this.value === '') {
+                        window.location.href = window.location.pathname;
+                    }
+                });
+            });
+        </script>
+
+
+</body>
+</html>

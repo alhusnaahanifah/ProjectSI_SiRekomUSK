@@ -19,13 +19,13 @@
             <a href="#" class="menu-item active">
                 <i><img src="{% static 'adminpanel/images/iconsbdash.png' %}" alt="icon Dashboard"></i> Dashboard
             </a>
-            <a href="#" class="menu-item">
+            <a href="{% url 'daftar_prodi' %}" class="menu-item">
                 <i><img src="{% static 'adminpanel/images/iconsbprodi.png' %}" alt="icon prodi"></i> Program Studi
             </a>
             <a href="#" class="menu-item">
                 <i><img src="{% static 'adminpanel/images/iconsbtest.png' %}" alt="icon test"></i> Pertanyaan Tes Minat
             </a>
-            <a href="#" class="menu-item">
+            <a href="{% url 'daftar_pengguna' %}" class="menu-item">
                 <i><img src="{% static 'adminpanel/images/iconsbpengguna.png' %}" alt="icon pengguna"></i> Pengguna
             </a>
         </nav>

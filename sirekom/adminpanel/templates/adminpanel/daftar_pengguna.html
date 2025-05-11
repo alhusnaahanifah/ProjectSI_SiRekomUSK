@@ -16,10 +16,10 @@
         </div>
         
         <nav class="sidebar-menu">
-            <a href="#" class="menu-item">
+            <a href="{% url 'dashboard_admin' %}" class="menu-item">
                 <i><img src="{% static 'adminpanel/images/iconsbdash.png' %}" alt="icon Dashboard"></i> Dashboard
             </a>
-            <a href="#" class="menu-item">
+            <a href="{% url 'daftar_prodi' %}" class="menu-item">
                 <i><img src="{% static 'adminpanel/images/iconsbprodi.png' %}" alt="icon prodi"></i> Program Studi
             </a>
             <a href="#" class="menu-item">
@@ -56,12 +56,11 @@
         <!-- Users Table Section -->
         <div class="content-section">
             <div class="section-header">
-                <h2 class="section-title">Daftar Pengguna</h2>
-                <div class="search-container">
+                <form method="get" class="search-container" action="{% url 'daftar_pengguna' %}">
                     <img src="{% static 'adminpanel/images/iconsearch.png' %}" alt="Search" style="width: 16px; height: 16px;">
-                    <input type="text" placeholder="Cari pengguna...">
-                </div>
-            </div>
+                    <input type="text" name="query" placeholder="Cari pengguna..." value="{{ request.GET.query }}">
+                </form>
+            </div>  
             
             <table class="users-table">
                 <thead>
@@ -84,10 +83,11 @@
                     <td>{{ pengguna.sekolah_asal }}</td>
                     <td>
                         <div class="action-icons">
-                            <a href="#" class="action-icon detail-icon">
+                            <a href="#" class="action-icon detail-icon" onclick="showUserModal('{{ pengguna.nama }}', '{{ pengguna.email }}', '{{ pengguna.jenis_kelamin }}', '{{ pengguna.sekolah_asal }}')">
                                 <img src="{% static 'adminpanel/images/icondetail.png' %}" alt="Detail">
                             </a>
-                            <a href="#" class="action-icon delete-icon">
+                            <a href="{% url 'hapus_pengguna' pengguna.id %}" class="action-icon delete-icon" 
+                            onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?');">
                                 <img src="{% static 'adminpanel/images/icondelete.png' %}" alt="Delete">
                             </a>
                         </div>
@@ -98,22 +98,54 @@
 
             </table>
             
+            <div id="userModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Detail Pengguna</h2>
+                    <p><strong>Nama:</strong> <span id="modalNama"></span></p>
+                    <p><strong>Email:</strong> <span id="modalEmail"></span></p>
+                    <p><strong>Jenis Kelamin:</strong> <span id="modalJK"></span></p>
+                    <p><strong>Sekolah Asal:</strong> <span id="modalSekolah"></span></p>
+                </div>
+            </div>
             <div class="pagination">
-                <div class="page-button active">1</div>
-                <div class="page-button">2</div>
-                <div class="page-button">3</div>
-                <div class="page-button">4</div>
-                <div class="page-button">5</div>
+                {% for i in page_numbers %}
+                    <div class="page-button {% if i == 1 %}active{% endif %}">{{ i }}</div>
+                {% endfor %}
             </div>
         </div>
     </div>
 
 
     <script>
-        // JavaScript could be added here for interactivity
+        function showUserModal(nama, email, jk, sekolah) {
+            document.getElementById('modalNama').innerText = nama;
+            document.getElementById('modalEmail').innerText = email;
+            document.getElementById('modalJK').innerText = jk;
+            document.getElementById('modalSekolah').innerText = sekolah;
+            document.getElementById('userModal').style.display = 'block';
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
-            // You could add animations, data loading, or other interactive features here
+            document.querySelector('.modal .close').onclick = function() {
+                document.getElementById('userModal').style.display = 'none';
+            }
+
+            window.onclick = function(event) {
+                const modal = document.getElementById('userModal');
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            }
         });
+
+        document.querySelector('input[name="query"]').addEventListener('input', function() {
+            if (this.value === '') {
+                window.location.href = window.location.pathname;
+            }
+        });
+
     </script>
+
 </body>
 </html>
