@@ -127,6 +127,13 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            const inputQuery = document.querySelector('input[name="query"]');
+                inputQuery.addEventListener('input', function() {
+                    if (this.value === '') {
+                        window.location.href = window.location.pathname;
+                    }
+                });
+
             document.querySelector('.modal .close').onclick = function() {
                 document.getElementById('userModal').style.display = 'none';
             }
@@ -138,13 +145,6 @@
                 }
             }
         });
-
-        document.querySelector('input[name="query"]').addEventListener('input', function() {
-            if (this.value === '') {
-                window.location.href = window.location.pathname;
-            }
-        });
-
     </script>
 
 </body>
