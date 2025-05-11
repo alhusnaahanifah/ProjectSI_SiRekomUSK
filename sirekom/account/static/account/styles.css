@@ -69,7 +69,7 @@ h1 {
     color: #C1C1C1;
     text-align: center;
     font-size: 12px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
 
 .form-group {
@@ -158,4 +158,12 @@ select.form-control option {
 
 .login-link a:hover {
     text-decoration: underline;
+}
+
+.alert {
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    text-align: center;
+    color:rgb(234, 95, 26);
 }

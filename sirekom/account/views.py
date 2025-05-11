@@ -42,7 +42,6 @@ def register_siswa(request):
 
     return render(request, 'account/register.html', {'form': form})
 
-
 def login_siswa(request):
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -52,11 +51,11 @@ def login_siswa(request):
             user = CustomUser.objects.get(email=email)
             if user and check_password(password, user.password):
                 request.session['user_id'] = str(user.id)
-                messages.success(request, 'Login berhasil!')
-                return redirect('dashboard_siswa')
+                return redirect('dashboard_siswa')  # ✅ Tidak ada pesan sukses
             else:
-                messages.error(request, 'Email atau password salah.')
+                messages.error(request, 'Email atau password salah!')
         except CustomUser.DoesNotExist:
             messages.error(request, 'Akun tidak ditemukan.')
 
     return render(request, 'account/masuk.html')
+
