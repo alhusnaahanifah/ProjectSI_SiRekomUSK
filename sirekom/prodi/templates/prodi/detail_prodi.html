@@ -8,15 +8,15 @@
     <title>Detail Prodi</title>
     <link rel="stylesheet" href="{% static 'prodi/styles.css' %}">
 </head>
-<body1>
+<body>
     <div class="container1">
         <header>
             <div class="logo">
-                <img src="../../static/landing/images/Logosamping.png" alt="StudyFind Logo">
+                <img src="{% static 'landing/images/Logosamping.png' %}" alt="StudyFind Logo">
             </div>
             <div class="user-menu">
                 <div class="dropdown">Beranda</div>
-                <div class="user-icon"><img src="../../static/landing/images/iconprofil.png" alt="Profil"></div>
+                <div class="user-icon"><img src="{% static 'landing/images/iconprofil.png' %}" alt="Profil"></div>
             </div>
         </header>
 
@@ -25,187 +25,80 @@
                 <div class="container1">
                     <div class="hero-content hero-reverse">
                         <div class="hero-image">
-                            <img src="../../static/prodi/images/FEB.png" alt="Gedung Fakultas Ekonomi dan Bisnis">
+                            <img src="{{ fakultas_gambar }}" alt="Gedung {{ fakultas_nama }}">
                         </div>
                         <div class="hero-text">
-                            <h1>Fakultas Ekonomi dan Bisnis (FEB)</h1>
-                            <p>Fakultas Ekonomi dan Bisnis terdiri dari 5 program studi unggulan:</p>
+                            <h1>{{ fakultas_nama }}</h1>
+                            <p>Fakultas ini terdiri dari {{ daftar_prodi|length }} program studi unggulan:</p>
                             <ul class="program-list">
-                                <li><a href="#akuntansi"><span class="icon">🎓</span> S1 Akuntansi</a></li>
-                                <li><a href="#bisnis-digital"><span class="icon">🎓</span> S1 Bisnis Digital</a></li>
-                                <li><a href="#ekonomi-islam"><span class="icon">🎓</span> S1 Ekonomi Islam</a></li>
-                                <li><a href="#ekonomi-pembangunan"><span class="icon">🎓</span> S1 Ekonomi Pembangunan</a></li>
-                                <li><a href="#manajemen"><span class="icon">🎓</span> S1 Manajemen</a></li>
+                                {% for prodi in daftar_prodi %}
+                                    <li><a href="#{{ prodi.nama_prodi|slugify }}"><span class="icon">🎓</span> {{ prodi.nama_prodi }}</a></li>
+                                {% endfor %}
                             </ul>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section id="akuntansi" class="program-section">
-                <div class="section-header akuntansi-header">
+            {% for prodi in daftar_prodi %}
+            <section id="{{ prodi.nama_prodi|slugify }}" class="program-section">
+                <div class="section-header">
                     <div class="container1">
-                        <div class="header-content">
-                            <span class="section-icon"><img src="../../static/prodi/images/icon.png" alt="icon toga"></span>
-                            <h2>PROGRAM STUDI S1 AKUNTANSI</h2>
+                        <div class="header-content {% if forloop.counter0|divisibleby:2 %}kanan{% endif %}">
+                            <span class="section-icon"><img src="{% static 'prodi/images/icon.png' %}" alt="icon toga"></span>
+                            <h2>PROGRAM STUDI {{ prodi.nama_prodi|upper }}</h2>
                         </div>
                     </div>
                 </div>
-                
-                <div class="container1">
-                    <div class="program-content">
-                        <div class="program-description">
-                            <p>Program studi S1 Akuntansi adalah program sarjana yang mempelajari prinsip-prinsip akuntansi, penyusunan laporan keuangan, analisis laporan keuangan, akuntansi manajemen, dan perpajakan.</p>
-                            
-                            <h3>Mata Kuliah Unggulan:</h3>
-                            <p>-</p>
-                            
-                            <h3>Prospek Kerja:</h3>
-                            <a href="#" class="btn-selengkapnya">Lihat Selengkapnya</a>
 
+                <div class="container1">
+                    <div class="program-content {% if forloop.counter0|divisibleby:2 %}reverse{% endif %}">
+                        <div class="program-description">
+                            <p>{{ prodi.deskripsi }}</p>
+                            <h3>Mata Kuliah Unggulan:</h3>
+                            <ul>
+                                {% for mk in prodi.mata_kuliah_unggulan %}
+                                    <li>{{ mk }}</li>
+                                {% empty %}
+                                    <li>-</li>
+                                {% endfor %}
+                            </ul>
+
+                            <h3>Prospek Kerja:</h3>
+                            <ul>
+                                {% for pk in prodi.prospek_kerja %}
+                                    <li>{{ pk }}</li>
+                                {% empty %}
+                                    <li>-</li>
+                                {% endfor %}
+                            </ul>
+
+                            {% if prodi.url_resmi %}
+                                <a href="{{ prodi.url_resmi }}" class="btn-selengkapnya" target="_blank">Lihat Selengkapnya</a>
+                            {% else %}
+                                <a href="#" class="btn-selengkapnya">Lihat Selengkapnya</a>
+                            {% endif %}
                         </div>
+
                         <div class="program-image">
-                            <img src="../../static/prodi/images/akuntansi.png" alt="Program Studi Akuntansi">
+                            <img src="{{ prodi.gambar }}" alt="Gambar {{ prodi.nama_prodi }}">
                             <div class="badge">
-                                <span class="accreditation-badge">🏅 AKREDITASI UNGGUL</span>
+                                {% if "baru" in prodi.akreditasi|lower %}
+                                    <span class="prodi-badge">🎓 PRODI BARU</span>
+                                {% else %}
+                                    <span class="accreditation-badge">🏅 {{ prodi.akreditasi }}</span>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-
-            <section id="bisnis-digital" class="program-section">
-                <div class="section-header bisnis-digital-header">
-                    <div class="container1">
-                        <div class="header-content kanan">
-                            <span class="section-icon"><img src="../../static/prodi/images/icon.png" alt="icon toga"></span>
-                            <h2>PROGRAM STUDI S1 BISNIS DIGITAL</h2>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="container1">
-                    <div class="program-content reverse">
-                        <div class="program-description">
-                            <p>Program Studi Sarjana (S1) Bisnis Digital adalah program studi yang mempelajari literasi data, pengelola bisnis berbasis online, strategi digital, dan transformasi bisnis untuk menciptakan solusi yang mampu meningkatan mengoptimalisasi dan mengelola sistem bisnis berbasis teknologi digital dalam rangka peningkatan efisiensi dan pengalaman pelanggan.</p>
-                            
-                            <h3>Mata Kuliah Unggulan:</h3>
-                            <p>-</p>
-                            
-                            <h3>Prospek Kerja:</h3>
-                            <a href="#" class="btn-selengkapnya">Lihat Selengkapnya</a>
-
-                        </div>
-                        <div class="program-image">
-                            <img src="../../static/prodi/images/bisnis digital.png" alt="Program Studi Bisnis Digital">
-                            <div class="badge">
-                                <span class="prodi-badge">🎓 PRODI BARU</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="ekonomi-islam" class="program-section">
-                <div class="section-header ekonomi-islam-header">
-                    <div class="container1">
-                        <div class="header-content">
-                            <span class="section-icon"><img src="../../static/prodi/images/icon.png" alt="icon toga"></span>
-                            <h2>PROGRAM STUDI S1 EKONOMI ISLAM</h2>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="container1">
-                    <div class="program-content">
-                        <div class="program-description">
-                            <p>Jurusan Ekonomi Syariah atau yang kerap disebut sebagai jurusan Ekonomi Islam adalah program studi yang mempelajari tentang ilmu, teori, dan kumpulan daya ekonomi untuk dikembangkan dalam pembangunan dan pemberdayaan dari perspektif Islam. Secara garis besar, subjek-subjek yang akan kamu pelajari di jurusan ini sama dengan jurusan Ekonomi lainnya tapi tentu saja akan lebih dikaitkan dengan syariat Islam, yaitu Al-Quran, Hadits, dan hukum fiqih lainnya.</p>
-                            
-                            <h3>Mata Kuliah Unggulan:</h3>
-                            <p>-</p>
-                            
-                            <h3>Prospek Kerja:</h3>
-                            <a href="#" class="btn-selengkapnya">Lihat Selengkapnya</a>
-
-                        </div>
-                        <div class="program-image">
-                            <img src="../../static/prodi/images/ekonomi islam.png" alt="Program Studi Ekonomi Islam">
-                            <div class="badge">
-                                <span class="accreditation-badge">🏅 AKREDITASI UNGGUL</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="ekonomi-pembangunan" class="program-section">
-                <div class="section-header ekonomi-pembangunan-header">
-                    <div class="container1">
-                        <div class="header-content kanan">
-                            <span class="section-icon"><img src="../../static/prodi/images/icon.png" alt="icon toga"></span>
-                            <h2>PROGRAM STUDI S1 EKONOMI PEMBANGUNAN</h2>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="container1">
-                    <div class="program-content reverse">
-                        <div class="program-description">
-                            <p>Ekonomi pembangunan adalah cabang ilmu ekonomi yang mempelajari kebijakan ekonomi pemerintah dalam rangka meningkatkan taraf hidup dan kesejahteraan masyarakat melalui pembangunan struktural dalam perekonomian.</p>
-                            
-                            <h3>Mata Kuliah Unggulan:</h3>
-                            <p>-</p>
-                            
-                            <h3>Prospek Kerja:</h3>
-                            <a href="#" class="btn-selengkapnya">Lihat Selengkapnya</a>
-
-                        </div>
-                        <div class="program-image">
-                            <img src="../../static/prodi/images/ekonomi pembangunan.png" alt="Program Studi Ekonomi Pembangunan">
-                            <div class="badge">
-                                <span class="accreditation-badge">🏅AKREDITASI UNGGUL</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="manajemen" class="program-section">
-                <div class="section-header manajemen-header">
-                    <div class="container1">
-                        <div class="header-content">
-                            <span class="section-icon"><img src="../../static/prodi/images/icon.png" alt="icon toga"></span>
-                            <h2>PROGRAM STUDI S1 MANAJEMEN</h2>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="container1">
-                    <div class="program-content">
-                        <div class="program-description">
-                            <p>Manajemen adalah program studi yang mempelajari ilmu pengelolaan organisasi dan bisnis. Program ini fokus pada pengembangan kemampuan merencanakan, mengatur, pemimpin, produksi, dan strategi bisnis, dengan tujuan menghasilkan lulusan yang mampu berkompetisi dalam dunia usaha.</p>
-                            
-                            <h3>Mata Kuliah Unggulan:</h3>
-                            <p>-</p>
-                            
-                            <h3>Prospek Kerja:</h3>
-                            <a href="#" class="btn-selengkapnya">Lihat Selengkapnya</a>
-
-                        </div>
-                        <div class="program-image">
-                            <img src="../../static/prodi/images/manajemen.png" alt="Program Studi Manajemen">
-                            <div class="badge">
-                                <span class="accreditation-badge">🏅 AKREDITASI UNGGUL</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            {% endfor %}
         </main>
 
         <footer>
             Copyright © 2025 StudyFind. All rights reserved
         </footer>
     </div>
-</body1>
+</body>
 </html>

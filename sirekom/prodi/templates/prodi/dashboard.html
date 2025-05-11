@@ -74,7 +74,9 @@
                         {% endif %}
                         <div class="faculty-info">
                             <h3 class="faculty-name">{{ fakultas.nama }}</h3>
-                            <button class="faculty-button">Lihat Prodi</button>
+                            <a href="{% url 'detail_prodi' fakultas.id %}">
+                                <button class="faculty-button">Lihat Prodi</button>
+                            </a>
                         </div>
                     </div> 
                     {% endfor %}                   

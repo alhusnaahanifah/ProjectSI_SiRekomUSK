@@ -9,6 +9,7 @@ import os
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
+from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
 def dashboard(request):
@@ -110,4 +111,11 @@ def daftar_fakultas(request):
     return render(request, 'prodi/daftar_fakultas.html', {'fakultas_list': semua_fakultas})
 
 def detail_prodi(request):
-    return render(request, 'prodi/detail_prodi.html')
+    # Ambil semua prodi
+    fakultas = get_object_or_404(Fakultas, id=fakultas_id)
+    daftar_prodi = Prodi.objects(fakultas=fakultas)
+
+    return render(request, 'prodi/detail_prodi.html', {
+        'fakultas': fakultas,
+        'daftar_prodi': daftar_prodi,
+    })
