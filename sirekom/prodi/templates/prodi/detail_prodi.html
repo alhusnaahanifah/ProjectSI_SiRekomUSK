@@ -15,7 +15,7 @@
                 <img src="{% static 'landing/images/Logosamping.png' %}" alt="StudyFind Logo">
             </div>
             <div class="user-menu">
-                <div class="dropdown">Beranda</div>
+                <div class="dropdown"><a href="{% url 'dashboard_siswa' %}" class="menu-link">Beranda</a></div>
                 <div class="user-icon"><img src="{% static 'landing/images/iconprofil.png' %}" alt="Profil"></div>
             </div>
         </header>
@@ -25,11 +25,15 @@
                 <div class="container1">
                     <div class="hero-content hero-reverse">
                         <div class="hero-image">
-                            <img src="{{ fakultas_gambar }}" alt="Gedung {{ fakultas_nama }}">
+                            {% if fakultas.gambar %}
+                                <img src="{{ MEDIA_URL }}{{ fakultas.gambar }}" alt="{{ fakultas.nama }}" class="faculty-image">
+                            {% else %}
+                                <p><em>Tidak ada gambar</em></p>
+                            {% endif %}
                         </div>
                         <div class="hero-text">
-                            <h1>{{ fakultas_nama }}</h1>
-                            <p>Fakultas ini terdiri dari {{ daftar_prodi|length }} program studi unggulan:</p>
+                            <h1>{{ fakultas.nama }}</h1>
+                            <p>{{ fakultas.nama }} terdiri dari {{ daftar_prodi|length }} program studi unggulan:</p>
                             <ul class="program-list">
                                 {% for prodi in daftar_prodi %}
                                     <li><a href="#{{ prodi.nama_prodi|slugify }}"><span class="icon">🎓</span> {{ prodi.nama_prodi }}</a></li>
@@ -42,7 +46,7 @@
 
             {% for prodi in daftar_prodi %}
             <section id="{{ prodi.nama_prodi|slugify }}" class="program-section">
-                <div class="section-header">
+                <div class="section-header akuntansi-header">
                     <div class="container1">
                         <div class="header-content {% if forloop.counter0|divisibleby:2 %}kanan{% endif %}">
                             <span class="section-icon"><img src="{% static 'prodi/images/icon.png' %}" alt="icon toga"></span>
@@ -86,7 +90,7 @@
                                 {% if "baru" in prodi.akreditasi|lower %}
                                     <span class="prodi-badge">🎓 PRODI BARU</span>
                                 {% else %}
-                                    <span class="accreditation-badge">🏅 {{ prodi.akreditasi }}</span>
+                                    <span class="accreditation-badge">🏅 AKREDITASI {{ prodi.akreditasi }}</span>
                                 {% endif %}
                             </div>
                         </div>

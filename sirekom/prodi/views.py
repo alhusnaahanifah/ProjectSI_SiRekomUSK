@@ -11,7 +11,7 @@ from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 from account.decorators import siswa_required
 from account.models import CustomUser
-from django.shortcuts import render, get_object_or_404
+from django.http import Http404
 
 # Create your views here.
 @siswa_required
@@ -129,11 +129,15 @@ def daftar_fakultas(request):
     semua_fakultas = Fakultas.objects.all()
     return render(request, 'prodi/daftar_fakultas.html', {'fakultas_list': semua_fakultas})
 
-def detail_prodi(request):
-    # Ambil semua prodi
-    fakultas = get_object_or_404(Fakultas, id=fakultas_id)
-    daftar_prodi = Prodi.objects(fakultas=fakultas)
 
+def detail_prodi(request, fakultas_id):
+    try:
+        fakultas = Fakultas.objects.get(id=fakultas_id)
+    except Fakultas.DoesNotExist:
+        raise Http404("Fakultas tidak ditemukan")
+
+    daftar_prodi = Prodi.objects(fakultas=fakultas)
+    
     return render(request, 'prodi/detail_prodi.html', {
         'fakultas': fakultas,
         'daftar_prodi': daftar_prodi,
