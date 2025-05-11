@@ -108,3 +108,6 @@ def tambah_fakultas(request):
 def daftar_fakultas(request):
     semua_fakultas = Fakultas.objects.all()
     return render(request, 'prodi/daftar_fakultas.html', {'fakultas_list': semua_fakultas})
+
+def detail_prodi(request):
+    return render(request, 'prodi/detail_prodi.html')
