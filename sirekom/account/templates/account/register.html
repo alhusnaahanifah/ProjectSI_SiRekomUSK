@@ -21,31 +21,30 @@
                 <form method="POST">
                     {% csrf_token %}                
                     <div class="form-group">
-                        <input type="text" class="form-control" id="nama" placeholder=" ">
+                        <input type="text" name="nama" class="form-control" id="nama" placeholder=" " required>
                         <label for="nama" class="form-label">Nama Anda</label>
-                    </div>
-                    
+                    </div>                    
                     <div class="form-group">
-                        <input type="text" class="form-control" id="sekolah" placeholder=" ">
-                        <label for="sekolah" class="form-label">Asal Sekolah</label>
+                        <input type="text" name="sekolah_asal" class="form-control" id="sekolah_asal" placeholder=" " required>
+                        <label for="sekolah_asal" class="form-label">Asal Sekolah</label>
                     </div>
                     
                     <div class="form-group dropdown">
-                        <select required class="form-control" id="kelamin">
+                        <select required class="form-control" name="jenis_kelamin" id="jenis_kelamin" required>
                             <option value="" disabled selected hidden></option>
-                            <option value="laki-laki">Laki-laki</option>
-                            <option value="perempuan">Perempuan</option>
+                            <option value="Laki-laki">Laki-laki</option>
+                            <option value="Perempuan">Perempuan</option>
                         </select>
-                        <label for="kelamin" class="form-label">Jenis Kelamin</label>                        
+                        <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>                        
                     </div>
                     
                     <div class="form-group">
-                        <input type="email" class="form-control" id="email" placeholder=" ">
+                        <input type="email" class="form-control" name="email" id="email" placeholder=" " required>
                         <label for="email" class="form-label">Alamat Email</label>
                     </div>
                     
                     <div class="form-group">
-                        <input type="password" class="form-control" id="password" placeholder=" ">
+                        <input type="password" class="form-control" name="password" id="password" placeholder=" " required>
                         <label for="password" class="form-label">Kata Sandi</label>
                         <i id="togglePassword" class="fa-solid fa-eye password-icon"></i>
                     </div>
@@ -54,7 +53,7 @@
                     
                     <div class="login-link">
                         <span>Sudah memiliki akun? </span>
-                        <a href="{% url 'masuk' %}">Masuk</a>
+                        <a href="{% url 'login' %}">Masuk</a>
                     </div>
                 </form>
             </div>

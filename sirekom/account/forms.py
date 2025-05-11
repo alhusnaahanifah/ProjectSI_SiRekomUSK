@@ -5,4 +5,4 @@ class SiswaRegisterForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
     sekolah_asal = forms.CharField(max_length=100)
-    jenis_kelamin = forms.ChoiceField(choices=[('L', 'Laki-laki'), ('P', 'Perempuan')])
+    jenis_kelamin = forms.ChoiceField(choices=[('Laki-laki', 'Laki-laki'), ('Perempuan', 'Perempuan')])

@@ -12,4 +12,4 @@ class CustomUser(Document):
 
     siswa_id = StringField()
     sekolah_asal = StringField()
-    jenis_kelamin = StringField(choices=["L", "P"])
+    jenis_kelamin = StringField(choices=["Laki-laki", "Perempuan"])

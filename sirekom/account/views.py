@@ -34,12 +34,13 @@ def register_siswa(request):
             # Kamu perlu handle session login manual atau pakai custom backend
 
             messages.success(request, 'Registrasi berhasil!')
+            print(request.POST)
 
             return redirect('login')  # sesuaikan
     else:
         form = SiswaRegisterForm()
 
-    return render(request, 'account/register_siswa.html', {'form': form})
+    return render(request, 'account/register.html', {'form': form})
 
 
 def login_siswa(request):
