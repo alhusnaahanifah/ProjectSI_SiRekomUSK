@@ -27,27 +27,23 @@
                         Anda memiliki jiwa kepemimpinan yang baik, sifat pantang menyerah, dan kegigihan untuk
                         memperjuangkan keadilan
                     </p>
-                    
                     <div class="prodi-section">
                         <h3>Prodi yang sesuai dengan Anda :</h3>
-                        
                         <div class="prodi-container">
-                            <div class="prodi-item">
-                                <div class="prodi-percentage">90%</div>
-                                <div class="prodi-name">S1 Ilmu Komunikasi</div>
-                            </div>
-                            
-                            <div class="prodi-item">
-                                <div class="prodi-percentage">95%</div>
-                                <div class="prodi-name">S1 Ilmu Hukum</div>
-                            </div>
-                            
-                            <div class="prodi-item">
-                                <div class="prodi-percentage">89%</div>
-                                <div class="prodi-name">S1 Ilmu Politik</div>
-                            </div>
+                            {% if error %}
+                                <p class="error-message">{{ error }}</p>
+                            {% else %}
+                                {% for prodi, score in top_prodi %}
+                                <div class="prodi-item">
+                                    <div class="prodi-percentage">{{ score }}%</div>
+                                    <div class="prodi-name">{{ prodi }}</div>
+                                </div>
+                                {% endfor %}
+                            {% endif %}
                         </div>
                     </div>
+
+
                 </div>
                 
                 <div class="button-container">
