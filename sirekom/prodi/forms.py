@@ -29,7 +29,12 @@ class ProdiForm(forms.Form):
         max_length=200
     )
     
-    fakultas = forms.CharField(label="ID Fakultas")  # ID, bukan object
+    # fakultas = forms.CharField(label="ID Fakultas")  # ID, bukan object
+
+    fakultas = forms.ChoiceField(
+        label="Fakultas", 
+        choices=[]  # akan diisi di __init__
+    )
 
     akreditasi = forms.CharField(
         label="Akreditasi", 
@@ -57,4 +62,9 @@ class ProdiForm(forms.Form):
     )
     
     gambar = forms.ImageField(label="Logo Prodi", required=False)
-
+    
+    def __init__(self, *args, **kwargs):
+        super(ProdiForm, self).__init__(*args, **kwargs)
+        self.fields['fakultas'].choices = [
+            (str(f.fakultas_id), f.nama) for f in Fakultas.objects
+        ]

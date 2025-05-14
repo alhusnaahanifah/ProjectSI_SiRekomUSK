@@ -1,16 +1,112 @@
-{% block content %}
-<h2>Daftar Fakultas</h2>
+{% load static %}
 
-<div style="display: flex; flex-wrap: wrap; gap: 20px;">
-  {% for fakultas in fakultas_list %}
-    <div style="border: 1px solid #ccc; padding: 10px; width: 250px;">
-      <strong>{{ fakultas.nama }}</strong><br>
-      {% if fakultas.gambar %}
-        <img src="{{ MEDIA_URL }}{{ fakultas.gambar }}" alt="{{ fakultas.nama }}" style="width: 100%; max-height: 150px; object-fit: cover;">
-      {% else %}
-        <p><em>Tidak ada gambar</em></p>
-      {% endif %}
-    </div>
-  {% endfor %}
-</div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIREKOM USK - Daftar Fakultas</title>
+    <link rel="stylesheet" href="{% static 'adminpanel/styles.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo-container">
+            <img src="{% static 'landing/images/Logobawah.png' %}" alt="SIREKOM USK Logo" class="logo">
+        </div>
+        <nav class="sidebar-menu">
+            <a href="{% url 'dashboard_admin' %}" class="menu-item">
+                <img src="{% static 'adminpanel/images/iconsbdash.png' %}" alt="Dashboard"> Dashboard
+            </a>
+            <a href="#" class="menu-item active">
+                <img src="{% static 'adminpanel/images/iconsbprodi.png' %}" alt="Program Studi"> Program Studi
+            </a>
+            <a href="#" class="menu-item">
+                <img src="{% static 'adminpanel/images/iconsbtest.png' %}" alt="Tes Minat"> Pertanyaan Tes Minat
+            </a>
+            <a href="{% url 'daftar_pengguna' %}" class="menu-item">
+                <img src="{% static 'adminpanel/images/iconsbpengguna.png' %}" alt="Pengguna"> Pengguna
+            </a>
+        </nav>
+        <a href="{% url 'keluar' %}" class="logout-btn">
+            <img src="{% static 'adminpanel/images/iconkeluar.png' %}" alt="Keluar"> Keluar
+        </a>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="header">
+            <div class="user-profile">
+                <span class="user-name">{{ user.nama|default:"Admin" }}</span>
+                <div class="avatar">
+                    <img src="{% static 'adminpanel/images/iconprofil.png' %}" alt="Profil">
+                </div>
+            </div>
+        </header>
+
+        <section class="welcome">
+            <h1 class="welcome-text">DAFTAR FAKULTAS</h1>
+            <div class="date-display">
+              <a href="{% url 'daftar_prodi' %}" >
+                  <i style="margin-right: 5px;"><img src="{% static 'adminpanel/images/iconsbprodi.png' %}" alt="icon prodi"></i> Program Studi
+                </a>
+            </div>
+        </section>
+
+        <!-- Content Section -->
+        <section class="content-section">
+            <div class="section-header">
+                <form method="get" class="search-container">
+                    <img src="{% static 'adminpanel/images/iconsearch.png' %}" alt="Cari">
+                    <input type="text" name="query" placeholder="Cari fakultas..." value="{{ query }}">
+                </form>
+                <a href="{% url 'tambah_fakultas' %}" class="logout-btn">
+                    <img src="{% static 'adminpanel/images/iconplus.png' %}" alt="Tambah"> Tambah Fakultas
+                </a>
+            </div>
+
+            <div class="faculty-section">
+                <h2 class="faculty-heading">Fakultas Universitas Syiah Kuala</h2>
+                <div class="faculty-grid">
+                    {% for fakultas in fakultas_list %}
+                    <!-- Faculty Card 1 -->
+                    <div class="faculty-card">
+                        {% if fakultas.gambar %}
+                            <img src="{{ MEDIA_URL }}{{ fakultas.gambar }}" alt="{{ fakultas.nama }}" class="faculty-image">
+                        {% else %}
+                            <p><em>Tidak ada gambar</em></p>
+                        {% endif %}
+                        <div class="faculty-info">
+                            <h3 class="faculty-name">{{ fakultas.nama }}</h3>
+                            <a href="{% url 'edit_fakultas' fakultas.fakultas_id %}" class="btn btn-sm btn-warning">Edit</a>
+                            <button class="btn btn-sm btn-danger" onclick="confirmDelete('{{ fakultas.fakultas_id }}')">Hapus</button>
+                        </div>
+                    </div> 
+                    {% endfor %}                   
+
+                </div>
+              </div>
+    </main>
+</body>
+
+<script>
+function confirmDelete(fakultasId) {
+    Swal.fire({
+        title: 'Yakin ingin menghapus?',
+        text: "Data ini tidak bisa dikembalikan!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Ya, hapus!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Arahkan ke URL hapus
+            window.location.href = `/fakultas/hapus/${fakultasId}/`;
+        }
+    });
+}
+</script>
+
+</html>

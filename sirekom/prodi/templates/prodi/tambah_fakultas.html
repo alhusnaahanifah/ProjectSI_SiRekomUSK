@@ -1,7 +1,110 @@
-<h2>Tambah Fakultas</h2>
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Fakultas</title>
+    <link rel="stylesheet" href="{% static 'adminpanel/styleedit.css' %}">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo-container">
+            <img src="{% static 'landing/images/Logobawah.png' %}" alt="SIREKOM USK Logo" class="logo">
+        </div>
+        
+        <nav class="sidebar-menu">
+            <a href="{% url 'dashboard_admin' %}" class="menu-item">
+                <img src="{% static 'adminpanel/images/iconsbdash.png' %}" alt="icon Dashboard"> Dashboard
+            </a>
+            <a href="{% url 'daftar_prodi' %}" class="menu-item active">
+                <img src="{% static 'adminpanel/images/iconsbprodi.png' %}" alt="icon prodi"> Program Studi
+            </a>
+            <a href="#" class="menu-item">
+                <img src="{% static 'adminpanel/images/iconsbtest.png' %}" alt="icon test"> Pertanyaan Tes Minat
+            </a>
+            <a href="{% url 'daftar_pengguna' %}" class="menu-item">
+                <img src="{% static 'adminpanel/images/iconsbpengguna.png' %}" alt="icon pengguna"> Pengguna
+            </a>
+        </nav>
+        
+        <a href="{% url 'keluar' %}" class="logout-btn">
+            <img src="{% static 'adminpanel/images/iconkeluar.png' %}" alt="icon keluar"> Keluar
+        </a>
+    </div>
 
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Simpan Fakultas</button>
-</form>
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <div class="user-profile">
+                <span class="user-name">{{user.nama}}</span>
+                <div class="avatar">
+                    <img src="{% static 'adminpanel/images/iconprofil.png' %}" alt="icon profil">
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h1>Tambah Fakultas Baru</h1>
+            
+            <form method="post" enctype="multipart/form-data" class="form-style">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="{{ form.fakultas_id.id_for_label }}">ID Fakultas</label>
+                    {{ form.fakultas_id }}
+                    {{ form.fakultas_id.errors }}
+                    <small class="help-text">Contoh: FT-001, FMIPA-002, dll</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.nama.id_for_label }}">Nama Fakultas</label>
+                    {{ form.nama }}
+                    {{ form.nama.errors }}
+                    <small class="help-text">Masukkan nama lengkap fakultas</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.gambar.id_for_label }}">Logo/Gambar Fakultas</label>
+                    {{ form.gambar }}
+                    <small class="help-text">Format yang didukung: JPG, PNG, maksimal 2MB</small>
+                    {{ form.gambar.errors }}
+                    <div id="image-preview" class="img-preview" style="display: none;">
+                        <img id="preview-image" src="#" alt="Preview" style="max-height: 200px;">
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button type="submit" class="submit-btn">Simpan Fakultas</button>
+                    <a href="{% url 'daftar_fakultas' %}" class="cancel-btn">Batal</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Preview gambar saat diunggah
+        document.addEventListener('DOMContentLoaded', function() {
+            const imageInput = document.getElementById('{{ form.gambar.id_for_label }}');
+            const imagePreview = document.getElementById('image-preview');
+            const previewImage = document.getElementById('preview-image');
+            
+            imageInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        previewImage.src = e.target.result;
+                        imagePreview.style.display = 'block';
+                    }
+                    
+                    reader.readAsDataURL(this.files[0]);
+                } else {
+                    imagePreview.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

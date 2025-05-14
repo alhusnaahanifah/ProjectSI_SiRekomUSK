@@ -50,7 +50,9 @@
         <div class="welcome">
             <h1 class="welcome-text">WELLCOME BACK, {{user.nama}}</h1>
             <div class="date-display">
-                <i style="margin-right: 5px;"><img src="{% static 'adminpanel/images/iconkalender.png' %}" alt="icon kalender"></i> 24 April 2025
+                <a href="{% url 'daftar_fakultas' %}" >
+                    <i style="margin-right: 5px;"><img src="{% static 'adminpanel/images/iconsbprodi.png' %}" alt="icon prodi"></i> Fakultas
+                </a>
             </div>
         </div>
 
@@ -61,6 +63,10 @@
                     <img src="{% static 'adminpanel/images/iconsearch.png' %}" alt="Search" style="width: 16px; height: 16px;">
                     <input type="text" name="query" placeholder="Cari program studi..." value="{{ query }}">
                 </form>
+                <a href="{% url 'tambah_prodi' %}" class="logout-btn">
+                    <img src="{% static 'adminpanel/images/iconplus.png' %}" alt="icon tambah">
+                    Tambah Prodi
+                </a>
             </div>  
             
             <table class="users-table">

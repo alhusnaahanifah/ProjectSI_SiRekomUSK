@@ -13,6 +13,7 @@ from account.decorators import siswa_required
 from account.models import CustomUser
 from django.http import Http404
 from django.urls import reverse
+from account.decorators import admin_required
 
 @siswa_required
 def dashboard(request):
@@ -30,7 +31,17 @@ def dashboard(request):
         'user': user
     })
 
+@admin_required
 def tambah_prodi(request):
+    user_id = request.session.get('user_id')
+    
+    if not user_id:
+        # Jika tidak ada user_id dalam session, arahkan ke login
+        return redirect('login')
+
+    # Ambil data user berdasarkan user_id dari session
+    user = CustomUser.objects.get(id=user_id)
+    
     if request.method == 'POST':
         form = ProdiForm(request.POST, request.FILES)
         if form.is_valid():
@@ -74,7 +85,7 @@ def tambah_prodi(request):
     else:
         form = ProdiForm()
 
-    return render(request, 'prodi/tambah_prodi.html', {'form': form})
+    return render(request, 'prodi/tambah_prodi.html', {'form': form, 'user':user })
 
 
 def daftar_prodi(request):
@@ -82,6 +93,7 @@ def daftar_prodi(request):
     return render(request, 'prodi/daftar_prodi.html', {'prodi_list': semua_prodi})
 
 
+@admin_required
 def tambah_fakultas(request):
     if request.method == 'POST':
         form = FakultasForm(request.POST, request.FILES)
@@ -119,10 +131,55 @@ def tambah_fakultas(request):
     return render(request, 'prodi/tambah_fakultas.html', {'form': form})
 
   
-  
+@admin_required  
 def daftar_fakultas(request):
+    user_id = request.session.get('user_id')
+    
+    if not user_id:
+        # Jika tidak ada user_id dalam session, arahkan ke login
+        return redirect('login')
+
+    # Ambil data user berdasarkan user_id dari session
+    user = CustomUser.objects.get(id=user_id)
     semua_fakultas = Fakultas.objects.all()
-    return render(request, 'prodi/daftar_fakultas.html', {'fakultas_list': semua_fakultas})
+    return render(request, 'prodi/daftar_fakultas.html', {'fakultas_list': semua_fakultas, 'user': user})
+
+@admin_required
+def edit_fakultas(request, fakultas_id):
+    fakultas = Fakultas.objects(fakultas_id=fakultas_id).first()
+    if not fakultas:
+        raise Http404("Fakultas tidak ditemukan.")
+
+    if request.method == 'POST':
+        form = FakultasForm(request.POST, request.FILES, initial=fakultas.to_mongo().to_dict())
+        if form.is_valid():
+            fakultas.nama = form.cleaned_data['nama']
+
+            gambar = form.cleaned_data.get('gambar')
+            if gambar:
+                fs = FileSystemStorage(location=settings.MEDIA_ROOT)
+                filename = fs.save(gambar.name, gambar)
+                file_url = fs.url(filename)
+                fakultas.gambar = file_url
+
+            fakultas.save()
+            return redirect('daftar_fakultas')
+    else:
+        form = FakultasForm(initial={
+            'fakultas_id': fakultas.fakultas_id,
+            'nama': fakultas.nama,
+        })
+
+    return render(request, 'prodi/edit_fakultas.html', {'form': form, 'fakultas': fakultas})
+
+@admin_required
+def hapus_fakultas(request, fakultas_id):
+    fakultas = Fakultas.objects(fakultas_id=fakultas_id).first()
+    if not fakultas:
+        raise Http404("Fakultas tidak ditemukan.")
+
+    fakultas.delete()
+    return redirect('daftar_fakultas')
 
 
 def detail_prodi(request, fakultas_id):

@@ -1,14 +1,146 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>Tambah Prodi</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Program Studi</title>
+    <link rel="stylesheet" href="{% static 'adminpanel/styleedit.css' %}">
 </head>
 <body>
-    <h1>Form Tambah Program Studi</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Simpan</button>
-    </form>    
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo-container">
+            <img src="{% static 'landing/images/Logobawah.png' %}" alt="SIREKOM USK Logo" class="logo">
+        </div>
+        
+        <nav class="sidebar-menu">
+            <a href="{% url 'dashboard_admin' %}" class="menu-item">
+                <img src="{% static 'adminpanel/images/iconsbdash.png' %}" alt="icon Dashboard"> Dashboard
+            </a>
+            <a href="{% url 'daftar_prodi' %}" class="menu-item active">
+                <img src="{% static 'adminpanel/images/iconsbprodi.png' %}" alt="icon prodi"> Program Studi
+            </a>
+            <a href="#" class="menu-item">
+                <img src="{% static 'adminpanel/images/iconsbtest.png' %}" alt="icon test"> Pertanyaan Tes Minat
+            </a>
+            <a href="{% url 'daftar_pengguna' %}" class="menu-item">
+                <img src="{% static 'adminpanel/images/iconsbpengguna.png' %}" alt="icon pengguna"> Pengguna
+            </a>
+        </nav>
+        
+        <a href="{% url 'keluar' %}" class="logout-btn">
+            <img src="{% static 'adminpanel/images/iconkeluar.png' %}" alt="icon keluar"> Keluar
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <div class="user-profile">
+                <span class="user-name">{{user.nama}}</span>
+                <div class="avatar">
+                    <img src="{% static 'adminpanel/images/iconprofil.png' %}" alt="icon profil">
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h1>Tambah Program Studi Baru</h1>
+            
+            <form method="post" enctype="multipart/form-data" class="form-style">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    {{ form.prodi_id.label_tag }}
+                    {{ form.prodi_id }}
+                    {{ form.prodi_id.errors }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.nama_prodi.label_tag }}
+                    {{ form.nama_prodi }}
+                    {{ form.nama_prodi.errors }}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.fakultas.label_tag }}
+                    {{ form.fakultas }}
+                    {{ form.fakultas.errors }}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.akreditasi.label_tag }}
+                    {{ form.akreditasi }}
+                    {{ form.akreditasi.errors }}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.deskripsi.label_tag }}
+                    {{ form.deskripsi }}
+                    {{ form.deskripsi.errors }}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.mata_kuliah_unggulan.label_tag }}
+                    {{ form.mata_kuliah_unggulan }}
+                    <small class="help-text">Pisahkan dengan koma untuk memasukkan beberapa mata kuliah unggulan</small>
+                    {{ form.mata_kuliah_unggulan.errors }}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.prospek_kerja.label_tag }}
+                    {{ form.prospek_kerja }}
+                    <small class="help-text">Pisahkan dengan koma untuk memasukkan beberapa prospek kerja</small>
+                    {{ form.prospek_kerja.errors }}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.url_resmi.label_tag }}
+                    {{ form.url_resmi }}
+                    {{ form.url_resmi.errors }}
+                </div>
+                
+                <div class="form-group">
+                    <label for="id_gambar">Gambar Program Studi:</label>
+                    {{ form.gambar }}
+                    <small class="help-text">Unggah gambar yang mewakili program studi (opsional)</small>
+                    {{ form.gambar.errors }}
+                    <div id="image-preview" class="img-preview" style="display: none;">
+                        <img id="preview-image" src="#" alt="Preview" style="max-height: 200px;">
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button type="submit" class="submit-btn">Simpan Program Studi</button>
+                    <a href="{% url 'daftar_prodi' %}" class="cancel-btn">Batal</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Preview gambar saat diunggah
+        document.addEventListener('DOMContentLoaded', function() {
+            const imageInput = document.getElementById('id_gambar');
+            const imagePreview = document.getElementById('image-preview');
+            const previewImage = document.getElementById('preview-image');
+            
+            imageInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        previewImage.src = e.target.result;
+                        imagePreview.style.display = 'block';
+                    }
+                    
+                    reader.readAsDataURL(this.files[0]);
+                } else {
+                    imagePreview.style.display = 'none';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
