@@ -1,11 +1,15 @@
 from django.shortcuts import render, redirect
 from account.decorators import admin_required
 from prodi.models import Prodi 
+from .forms import ProdiForm 
 from account.models import CustomUser  # model user kamu
 from prodi.models import Fakultas     # model lain yang kamu butuh
 from math import ceil
 from django.http import Http404
 from mongoengine.queryset.visitor import Q
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+from django.contrib import messages
 
 # Create your views here.
 @admin_required
@@ -88,7 +92,7 @@ def daftar_prodi(request):
     else:
         prodi_list = Prodi.objects.all()
 
-    paginator = Paginator(prodi_list, 7)  # 7 data per halaman
+    paginator = Paginator(prodi_list, 5)  # 7 data per halaman
     page_obj = paginator.get_page(page_number)
 
     offset = (page_obj.number - 1) * paginator.per_page
@@ -119,3 +123,46 @@ def hapus_prodi(request, prodi_id):
         messages.error(request, "Program studi tidak ditemukan.")
 
     return redirect('daftar_prodi')
+
+
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
+
+def edit_prodi(request, prodi_id):
+    user_id = request.session.get('user_id')
+    if not user_id:
+        return redirect('login')
+    
+    user = CustomUser.objects.get(id=user_id)
+    prodi = Prodi.objects(prodi_id=prodi_id).first()
+
+    if not prodi:
+        messages.error(request, "Program studi tidak ditemukan.")
+        return redirect('daftar_prodi')
+
+    if request.method == 'POST':
+        form = ProdiForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save(prodi=prodi)  # Perhatikan: method `save()` sudah menangani file gambar
+            messages.success(request, "Program studi berhasil diperbarui.")
+            return redirect('daftar_prodi')
+    else:
+        # Pre-fill data lama dari MongoDB
+        initial_data = {
+            'nama_prodi': prodi.nama_prodi,
+            'fakultas': str(prodi.fakultas.fakultas_id) if prodi.fakultas else '',
+            'akreditasi': prodi.akreditasi,
+            'deskripsi': prodi.deskripsi,
+            'mata_kuliah_unggulan': ', '.join(prodi.mata_kuliah_unggulan),
+            'prospek_kerja': ', '.join(prodi.prospek_kerja),
+            'url_resmi': prodi.url_resmi,
+        }
+        form = ProdiForm(initial=initial_data)
+
+    return render(request, 'adminpanel/edit_prodi.html', {
+        'form': form,
+        'user': user,
+        'prodi': prodi,  # penting agar gambar lama bisa diakses di template
+    })
+
+

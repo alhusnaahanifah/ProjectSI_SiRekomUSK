@@ -30,9 +30,10 @@
             </a>
         </nav>
         
-        <button class="logout-btn">
-            <i style="margin-right: 5px;"><img src="{% static 'adminpanel/images/iconkeluar.png' %}" alt="icon keluar"></i> Keluar
-        </button>
+        <a href="{% url 'keluar' %}" class="logout-btn">
+            <img src="{% static 'adminpanel/images/iconkeluar.png' %}" alt="icon keluar">
+            Keluar
+        </a>
     </div>
 
     <!-- Main Content -->
@@ -94,6 +95,9 @@
                                 '{{ prodi.url_resmi }}',
                                 '{{ prodi.gambar }}')">
                                 <img src="{% static 'adminpanel/images/icondetail.png' %}" alt="Detail">
+                            </a>
+                            <a href="{% url 'edit_prodi' prodi.prodi_id %}" class="action-icon edit-icon">
+                                <img src="{% static 'adminpanel/images/iconedit.png' %}" alt="Edit">
                             </a>
                             <a href="{% url 'hapus_prodi' prodi.id %}" class="action-icon delete-icon" 
                             onclick="return confirm('Apakah Anda yakin ingin menghapus program studi ini?');">

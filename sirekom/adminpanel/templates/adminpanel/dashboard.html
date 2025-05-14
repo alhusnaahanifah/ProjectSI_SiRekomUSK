@@ -30,9 +30,10 @@
             </a>
         </nav>
         
-        <button class="logout-btn">
-            <i style="margin-right: 5px;"><img src="{% static 'adminpanel/images/iconkeluar.png' %}" alt="icon keluar"></i> Keluar
-        </button>
+        <a href="{% url 'keluar' %}" class="logout-btn">
+            <img src="{% static 'adminpanel/images/iconkeluar.png' %}" alt="icon keluar">
+            Keluar
+        </a>
     </div>
 
     <!-- Main Content -->

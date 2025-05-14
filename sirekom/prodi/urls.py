@@ -9,5 +9,3 @@ urlpatterns = [
     path('daftar-fakultas/', views.daftar_fakultas, name='daftar_fakultas'),
     path('fakultas/<str:fakultas_id>/', views.detail_prodi, name='detail_prodi'),
 ]
-
-path('detail-prodi/', views.detail_prodi, name='detail_prodi'), 

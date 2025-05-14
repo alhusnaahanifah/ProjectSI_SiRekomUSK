@@ -1,0 +1,104 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Program Studi</title>
+    <link rel="stylesheet" href="{% static 'adminpanel/styleedit.css' %}">
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="logo-container">
+        <img src="{% static 'landing/images/Logobawah.png' %}" alt="Logo" class="logo">
+    </div>
+    <nav class="sidebar-menu">
+        <a href="{% url 'dashboard_admin' %}" class="menu-item"><img src="{% static 'adminpanel/images/iconsbdash.png' %}"> Dashboard</a>
+        <a href="#" class="menu-item active"><img src="{% static 'adminpanel/images/iconsbprodi.png' %}"> Program Studi</a>
+        <a href="#" class="menu-item"><img src="{% static 'adminpanel/images/iconsbtest.png' %}"> Pertanyaan Tes Minat</a>
+        <a href="{% url 'daftar_pengguna' %}" class="menu-item"><img src="{% static 'adminpanel/images/iconsbpengguna.png' %}"> Pengguna</a>
+    </nav>
+    <a href="{% url 'keluar' %}" class="logout-btn">
+        <img src="{% static 'adminpanel/images/iconkeluar.png' %}" alt="Keluar"> Keluar
+    </a>
+</div>
+
+<div class="main-content">
+    <div class="header">
+        <div class="user-profile">
+            <span class="user-name">{{ user.nama }}</span>
+            <div class="avatar"><img src="{% static 'adminpanel/images/iconprofil.png' %}" alt="Profil"></div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <h1>Edit Program Studi</h1>
+
+        <form method="post" enctype="multipart/form-data" class="form-style">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                {{ form.nama_prodi.label_tag }}<br>
+                {{ form.nama_prodi }}
+                {{ form.nama_prodi.errors }}
+            </div>
+
+            <div class="form-group">
+                {{ form.fakultas.label_tag }}<br>
+                {{ form.fakultas }}
+                {{ form.fakultas.errors }}
+            </div>
+
+            <div class="form-group">
+                {{ form.akreditasi.label_tag }}<br>
+                {{ form.akreditasi }}
+                {{ form.akreditasi.errors }}
+            </div>
+
+            <div class="form-group">
+                {{ form.deskripsi.label_tag }}<br>
+                {{ form.deskripsi }}
+                {{ form.deskripsi.errors }}
+            </div>
+
+            <div class="form-group">
+                {{ form.mata_kuliah_unggulan.label_tag }}<br>
+                {{ form.mata_kuliah_unggulan }}
+                {{ form.mata_kuliah_unggulan.errors }}
+            </div>
+
+            <div class="form-group">
+                {{ form.prospek_kerja.label_tag }}<br>
+                {{ form.prospek_kerja }}
+                {{ form.prospek_kerja.errors }}
+            </div>
+
+            <div class="form-group">
+                {{ form.url_resmi.label_tag }}<br>
+                {{ form.url_resmi }}
+                {{ form.url_resmi.errors }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_gambar">Gambar Saat Ini:</label><br>
+                {% if prodi.gambar %}
+                    <img src="{{ MEDIA_URL }}{{ prodi.gambar }}" alt="Gambar Prodi" style="max-height: 200px;"><br><br>
+                {% else %}
+                    <p>Tidak ada gambar yang diunggah.</p>
+                {% endif %}
+
+                <label for="id_gambar">Unggah Gambar Baru (jika ingin mengganti):</label><br>
+                {{ form.gambar }}
+                {{ form.gambar.errors }}
+            </div>
+
+        <button type="submit" class="submit-btn">Simpan Perubahan</button>
+    <a href="{% url 'daftar_prodi' %}" class="cancel-btn">Batal</a>
+</form>
+
+    </div>
+</div>
+
+</body>
+</html>
