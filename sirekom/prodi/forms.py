@@ -1,5 +1,6 @@
 from django import forms
 from .models import Fakultas
+from .models import Testimoni
 
 FAKULTAS_CHOICES = [
     ('Fakultas Teknik', 'Fakultas Teknik'),
@@ -58,3 +59,8 @@ class ProdiForm(forms.Form):
     
     gambar = forms.ImageField(label="Logo Prodi", required=False)
 
+class TestimoniForm(forms.Form):
+    nama = forms.CharField(widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    isi = forms.CharField(widget=forms.Textarea(attrs={'rows': 3}), 
+                        label="Testimoni Anda",
+                        required=True)

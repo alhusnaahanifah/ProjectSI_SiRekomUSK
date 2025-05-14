@@ -12,22 +12,41 @@ from django.contrib import messages
 from account.decorators import siswa_required
 from account.models import CustomUser
 from django.http import Http404
-from django.urls import reverse
+from .models import Testimoni
+from .forms import TestimoniForm
 
+# Create your views here.
 @siswa_required
 def dashboard(request):
     user_id = request.session.get('user_id')
-    
     if not user_id:
-        # Redirect ke login dan simpan halaman tujuan
-        return redirect(f"{reverse('login')}?next={request.path}")
+        return redirect('login')
 
     user = CustomUser.objects.get(id=user_id)
     semua_fakultas = Fakultas.objects.all()
 
+    if request.method == 'POST' and 'submit_testimoni' in request.POST:
+        testimoni_form = TestimoniForm(request.POST)
+        if testimoni_form.is_valid():
+            testimoni = Testimoni(
+                user=user,
+                nama=testimoni_form.cleaned_data['nama'],
+                isi=testimoni_form.cleaned_data['isi']
+            )
+            testimoni.save()
+            messages.success(request, "Testimoni berhasil dikirim!")
+            return redirect('dashboard_siswa')
+    else:
+        # Set nilai awal untuk nama
+        initial_data = {'nama': user.nama}
+        testimoni_form = TestimoniForm(initial=initial_data)
+
     return render(request, 'prodi/dashboard.html', {
         'fakultas_list': semua_fakultas,
-        'user': user
+        'user': user,
+        'testimoni_form': testimoni_form,
+        
+    
     })
 
 def tambah_prodi(request):

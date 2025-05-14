@@ -76,40 +76,38 @@
     </div>
 
     <!-- Testimonial Section -->
-    <section class="testimonial-section">
-        <div class="section-container">
-            <h2 class="section-title">Testimonial</h2>
-            
-            <div class="testimonials-container">
-                <div class="testimonial-card left">
-                    <div class="profile">
-                        <img src="../../static/landing/images/iconprofil.png" alt="Elna Raisa" class="profile-img">
-                        <div class="profile-name">Elna Raisa</div>
-                    </div>
-                    <p class="testimonial-text">Aplikasi ini sangat membantu saya mempertimbangkan jurusan yang sesuai minat saya</p>
-                    <div class="bubble-dot left"></div>
+<section class="testimonial-section">
+    <div class="section-container">
+        <h2 class="section-title">Testimonial</h2>
+        
+        <div class="testimonials-container">
+            {% for testimonial in testimonials %}
+            <div class="testimonial-card {% cycle 'left' 'right' 'left' %}">
+                <div class="profile">
+                    <img src="{% static 'landing/images/iconprofil.png' %}" 
+                         alt="{{ testimonial.nama }}" 
+                         class="profile-img">
+                    <div class="profile-name">{{ testimonial.nama }}</div>
                 </div>
-                
-                <div class="testimonial-card right">
-                    <div class="profile">
-                        <img src="../../static/landing/images/iconprofil.png" alt="Maya Khaera" class="profile-img">
-                        <div class="profile-name">Maya Khaera</div>
-                    </div>
-                    <p class="testimonial-text">Akhirnya nemu jurusan yang pas banget sama aku, Makasih Sistem USK!</p>
-                    <div class="bubble-dot right"></div>
-                </div>
-                
-                <div class="testimonial-card left">
-                    <div class="profile">
-                        <img src="../../static/landing/images/iconprofil.png" alt="David Bima" class="profile-img">
-                        <div class="profile-name">David Bima</div>
-                    </div>
-                    <p class="testimonial-text">Kuliah di Sistem USK, aku tahu ternyata aku cocok di Informatika. Padahal dulu sempat bingung. Sekarang jadi lebih percaya diri.</p>
-                    <div class="bubble-dot left"></div>
-                </div>
+                <p class="testimonial-text">{{ testimonial.isi }}</p>
+                <div class="bubble-dot {% cycle 'left' 'right' 'left' %}"></div>
             </div>
+            {% empty %}
+            <!-- Fallback jika tidak ada testimoni -->
+            <div class="testimonial-card left">
+                <div class="profile">
+                    <img src="{% static 'landing/images/iconprofil.png' %}" 
+                         alt="Default User" 
+                         class="profile-img">
+                    <div class="profile-name">User</div>
+                </div>
+                <p class="testimonial-text">Belum ada testimoni. Jadilah yang pertama!</p>
+                <div class="bubble-dot left"></div>
+            </div>
+            {% endfor %}
         </div>
-    </section>
+    </div>
+</section>
     
     <!-- Meet Our Teams Section -->
     <section class="teams-section">

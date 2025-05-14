@@ -1,4 +1,5 @@
 from django.db import models
+from account.models import CustomUser 
 
 # Create your models here.
 from mongoengine import Document, StringField, ListField, ReferenceField
@@ -18,3 +19,8 @@ class Prodi(Document):
     prospek_kerja = ListField(StringField())
     url_resmi = StringField()
     gambar = StringField()  # Simpan path ke file image
+    
+class Testimoni(Document):
+    user = ReferenceField(CustomUser, required=True)
+    nama = StringField()
+    isi = StringField(required=True)
