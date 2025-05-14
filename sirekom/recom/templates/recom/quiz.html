@@ -32,13 +32,18 @@
                             <div class="progress" style="width: {{ progress_percentage }}%"></div>
                         </div>
                     </div>
-                    
+                    {% if error_message %}
+                        <div class="error-message" style="color: red; margin-bottom: 15px;">
+                            {{ error_message }}
+                        </div>
+                    {% endif %}
+
                     <form method="post" class="test-form">
                         {% csrf_token %}
                         
                         {% for question in questions %}
                         <div class="question-card">
-                            <p class="question-text">{{ forloop.counter }}. {{ question.pertanyaan }}</p>
+                            <p class="question-text">{{start_number|add:forloop.counter}}. {{ question.pertanyaan }}</p>
                             <div class="likert-scale">
                                 <div class="likert-option">
                                     <input type="radio" id="opt5_{{ question.pertanyaan_id }}" name="question_{{ question.pertanyaan_id }}" value="5" 
