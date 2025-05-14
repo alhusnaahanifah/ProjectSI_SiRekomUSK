@@ -113,15 +113,21 @@ header {
 }
 
 .start-test-button {
-    background-color: #DECE68;
+background-color: #D4AF37;
+border: none;
+padding: 0;
+border-radius: 20px;
+font-weight: 700;
+cursor: pointer;
+box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+        
+.start-test-button a {
+    display: block;
+    padding: 8px 16px;
     color: #333;
-    border: none;
-    padding: 15px 30px;
-    border-radius: 20px;
-    font-weight: 700;
-    cursor: pointer;
+    text-decoration: none;
     font-size:18px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .subheading {
