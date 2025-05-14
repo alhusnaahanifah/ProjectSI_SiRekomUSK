@@ -142,6 +142,17 @@ box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     margin-right: 5px;
 }
 
+.subheading1 {
+    font-size: 18px;
+    color: #333;
+    text-indent: 20px; /* Hanya baris pertama yang menjorok */
+    line-height: 1.6;
+    font-weight: 500;
+      display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /* Test Results Section */
 .test-results {
     background-image: url('images/bghasil.png');
@@ -639,4 +650,341 @@ ul {
 }
 p {
     text-align: justify;
+}
+
+/* Import font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Reset dan styling dasar */
+.testimonial-reset {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.testimonial-body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f0f4f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.testimonial-wrapper {
+  width: 100%;
+  max-width: 800px; /* Melebarkan card dari 550px menjadi 800px */
+  margin: 0 auto; /* Untuk posisi tengah */
+  padding: 20px;
+}
+
+/* Posisi card */
+.testimonial-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.testimonial-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 
+              0 5px 15px rgba(0, 0, 0, 0.05),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+  padding: 40px 30px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  width: 100%; /* Pastikan card mengambil seluruh lebar wrapper */
+}
+
+.testimonial-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15), 
+              0 10px 20px rgba(0, 0, 0, 0.08),
+              inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+
+/* Background decorations - Menyesuaikan posisi lingkaran dengan card yang lebih lebar */
+.testimonial-bg-decoration {
+  position: absolute;
+  border-radius: 50%;
+  z-index: -1;
+  opacity: 0.8;
+}
+
+.testimonial-bg-circle-1 {
+  width: 350px; /* Lebih besar dari sebelumnya */
+  height: 350px; /* Lebih besar dari sebelumnya */
+  background: linear-gradient(to right, #9C8A18, #CEC06A, #E6DB93, #FFF6BC);
+  top: -150px;
+  right: -100px;
+  filter: blur(2px);
+}
+
+.testimonial-bg-circle-2 {
+  width: 300px; /* Lebih besar dari sebelumnya */
+  height: 300px; /* Lebih besar dari sebelumnya */
+  background: linear-gradient(to right, #9C8A18, #CEC06A, #E6DB93, #FFF6BC);
+  bottom: -100px;
+  left: -80px;
+  filter: blur(2px);
+}
+
+/* Menyesuaikan ukuran header dan button untuk card yang lebih besar */
+.testimonial-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 35px; /* Margin yang lebih besar */
+}
+
+.testimonial-icon-container {
+  width: 60px; /* Lebih besar */
+  height: 60px; /* Lebih besar */
+  background:  #D4AF37;
+  border-radius: 18px; /* Sedikit lebih besar */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 18px;
+  box-shadow: 0 5px 15px rgba(201, 204, 52, 0.3);
+}
+
+.testimonial-icon-container i {
+  color: white;
+  font-size: 26px; /* Lebih besar */
+}
+
+.testimonial-title {
+  color: #2d3748;
+  font-weight: 600;
+  font-size: 26px; /* Lebih besar */
+}
+
+/* Form styling */
+.testimonial-form-content {
+  padding: 10px 5px;
+}
+
+.testimonial-form-group {
+  margin-bottom: 25px;
+}
+
+.testimonial-form-group label {
+  display: block;
+  color: #4a5568;
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+/* Memperbesar ukuran form input dan textarea untuk mengisi card yang lebih lebar */
+.testimonial-form-group input,
+.testimonial-form-group textarea {
+  width: 100%;
+  padding: 18px 22px; /* Padding lebih besar */
+  border: none;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 12px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px; /* Font size lebih besar */
+  color: #2d3748;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05),
+              0 1px 2px rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.testimonial-form-group input:focus,
+.testimonial-form-group textarea:focus {
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05),
+              0 0 0 3px rgba(230, 214, 70, 0.3);
+}
+
+.testimonial-form-group input::placeholder,
+.testimonial-form-group textarea::placeholder {
+  color: #a0aec0;
+}
+
+/* Memperbesar button */
+.testimonial-button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30px; /* Tambahan margin top */
+}
+
+.testimonial-submit-btn {
+  background:  #D4AF37;
+  color: white;
+  border: none;
+  padding: 16px 32px; /* Lebih besar */
+  border-radius: 14px; /* Sedikit lebih besar */
+  font-family: 'Poppins', sans-serif;
+  font-size: 17px; /* Lebih besar */
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 5px 15px rgba(216, 202, 78, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonial-submit-btn i {
+  margin-right: 12px;
+  font-size: 17px; /* Lebih besar */
+}
+
+/* Responsive styling - menyesuaikan untuk layar lebih kecil */
+@media screen and (max-width: 768px) {
+  .testimonial-wrapper {
+    max-width: 95%;
+    padding: 10px;
+  }
+  
+  .testimonial-card {
+    padding: 30px 25px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .testimonial-card {
+    padding: 25px 18px;
+  }
+  
+  .testimonial-header {
+    margin-bottom: 25px;
+  }
+  
+  .testimonial-icon-container {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .testimonial-title {
+    font-size: 22px;
+  }
+  
+  .testimonial-form-group {
+    margin-bottom: 20px;
+  }
+  
+  .testimonial-form-group input,
+  .testimonial-form-group textarea {
+    padding: 14px 16px;
+    font-size: 15px;
+  }
+  
+  .testimonial-submit-btn {
+    padding: 14px 24px;
+    font-size: 16px;
+  }
+}
+
+/* Efek ripple pada button */
+.testimonial-submit-btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+
+@keyframes testimonial-ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(100, 100);
+    opacity: 0;
+  }
+}
+
+.testimonial-submit-btn:focus:not(:active)::after {
+  animation: testimonial-ripple 1s ease-out;
+}
+
+/* Responsive styling */
+@media screen and (max-width: 480px) {
+  .testimonial-card {
+    padding: 30px 20px;
+  }
+  
+  .testimonial-header {
+    margin-bottom: 20px;
+  }
+  
+  .testimonial-title {
+    font-size: 20px;
+  }
+  
+  .testimonial-form-group input,
+  .testimonial-form-group textarea {
+    padding: 12px 16px;
+  }
+  
+  .testimonial-submit-btn {
+    padding: 12px 20px;
+    font-size: 15px;
+  }
+}
+
+/* Hiasan daun di pojok kiri bawah */
+.testi-section {
+    padding-bottom: 60px;
+    position: relative;
+}
+.leaf-decoration {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200px;
+    height: 200px;
+    background-image: url('images/bgbunga.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: -1;
+    opacity: 0.7;
+    
+}
+
+
+/* Hiasan lingkaran di pojok kanan atas */
+.circle-decoration {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 200px;
+    height: 200px;
+    background-image: url('images/bglogo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: -1;
+    opacity: 0.6;
+}
+
+@media (max-width: 600px) {
+    .card {
+        width: 100%;
+    }
+    
+    .leaf-decoration, 
+    .circle-decoration{
+        opacity: 0.4; /* Mengurangi opacity hiasan pada layar kecil */
+    }
 }
