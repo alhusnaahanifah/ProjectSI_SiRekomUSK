@@ -1,19 +1,25 @@
-from django.shortcuts import render
 from django.shortcuts import render, redirect
 from account.decorators import siswa_required
-from .models import Quiz
+from .models import Quiz, Response
 from django.db import transaction
 import math
 from django.urls import reverse
 from account.models import CustomUser
-from .models import Response
+from mongoengine.errors import NotUniqueError
 
 # Create your views here.
 def instruksi_view(request):
     return render(request, 'recom/instruksi.html')
 
 def rekomendasi(request):
-    return render(request, 'recom/rekomendasi.html')
+    response_data = request.session.get('response_data', {})
+    likert_list = list(response_data.values())  # List jawaban skala Likert
+
+    print(likert_list)  # Debug
+
+    return render(request, 'recom/rekomendasi.html', {
+        'likert_list': likert_list
+    })
 
 @siswa_required
 def quiz(request, page=1):
@@ -36,22 +42,50 @@ def quiz(request, page=1):
     start_idx = (page - 1) * questions_per_page
     end_idx = start_idx + questions_per_page
     questions = all_questions[start_idx:end_idx]
+    start_number = (page - 1) * questions_per_page
 
-    # Modifikasi bagian ini untuk menyertakan response langsung di question object
     for question in questions:
-        response = Response.objects.filter(user=user, question=question).first()
-        question.user_response = response.value if response else None
+        user_response = Response.objects(user=user, question=question).first()
+        question.user_response = user_response.value if user_response else None
 
     if request.method == 'POST':
         with transaction.atomic():
+            unanswered = []
+            response_data = request.session.get('response_data', {})
+
             for question in questions:
                 value = request.POST.get(f'question_{question.pertanyaan_id}')
                 if value:
-                    Response.objects.update_or_create(
-                        user=user,
-                        question=question,
-                        defaults={'value': value}
-                    )
+                    try:
+                        existing_response = Response.objects(user=user, question=question).first()
+                        if existing_response:
+                            existing_response.value = int(value)
+                            existing_response.save()
+                        else:
+                            Response(user=user, question=question, value=int(value)).save()
+                    except NotUniqueError:
+                        fallback_response = Response.objects(user=user, question=question).first()
+                        if fallback_response:
+                            fallback_response.value = int(value)
+                            fallback_response.save()
+                    
+                    response_data[str(question.pertanyaan_id)] = int(value)
+                else:
+                    unanswered.append(question.pertanyaan_id)
+
+            request.session['response_data'] = response_data
+
+            if unanswered:
+                context = {
+                    'questions': questions,
+                    'current_page': page,
+                    'total_pages': total_pages,
+                    'is_first_page': page == 1,
+                    'is_last_page': page == total_pages,
+                    'progress_percentage': (page / total_pages) * 100,
+                    'error_message': 'Harap jawab semua pertanyaan sebelum melanjutkan.'
+                }
+                return render(request, 'recom/quiz.html', context)
 
             if 'next' in request.POST and page < total_pages:
                 return redirect('quiz', page=page+1)
@@ -67,6 +101,7 @@ def quiz(request, page=1):
         'is_first_page': page == 1,
         'is_last_page': page == total_pages,
         'progress_percentage': (page / total_pages) * 100,
+        'start_number': start_number  # Tambahan
     }
 
     return render(request, 'recom/quiz.html', context)
