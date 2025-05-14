@@ -12,13 +12,10 @@ from django.contrib import messages
 from account.decorators import siswa_required
 from account.models import CustomUser
 from django.http import Http404
-<<<<<<< HEAD
 from django.urls import reverse
 from account.decorators import admin_required
-=======
 from .models import Testimoni
 from .forms import TestimoniForm
->>>>>>> origin/main
 
 # Create your views here.
 @siswa_required
