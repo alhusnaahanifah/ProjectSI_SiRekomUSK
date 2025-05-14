@@ -79,8 +79,12 @@
                         {% endif %}
                         <div class="faculty-info">
                             <h3 class="faculty-name">{{ fakultas.nama }}</h3>
-                            <a href="{% url 'edit_fakultas' fakultas.fakultas_id %}" class="btn btn-sm btn-warning">Edit</a>
-                            <button class="btn btn-sm btn-danger" onclick="confirmDelete('{{ fakultas.fakultas_id }}')">Hapus</button>
+                            <a href="{% url 'edit_fakultas' fakultas.fakultas_id %}" class="action-icon edit-icon">
+                                <img src="{% static 'adminpanel/images/iconedit.png' %}" alt="Edit">
+                            </a>
+                            <button class="action-icon delete-icon" onclick="confirmDelete('{{ fakultas.fakultas_id }}')">
+                                <img src="{% static 'adminpanel/images/icondelete.png' %}" alt="Hapus">
+                            </button>
                         </div>
                     </div> 
                     {% endfor %}                   

@@ -2,13 +2,6 @@ from django import forms
 from .models import Fakultas
 from .models import Testimoni
 
-FAKULTAS_CHOICES = [
-    ('Fakultas Teknik', 'Fakultas Teknik'),
-    ('Fakultas Ekonomi', 'Fakultas Ekonomi'),
-    ('Fakultas Kedokteran', 'Fakultas Kedokteran'),
-    ('Fakultas Hukum', 'Fakultas Hukum'),
-]
-
 class FakultasForm(forms.Form):
     fakultas_id = forms.CharField(
         label="ID Fakultas", 

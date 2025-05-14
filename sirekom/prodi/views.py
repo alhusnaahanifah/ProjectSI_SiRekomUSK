@@ -113,6 +113,15 @@ def daftar_prodi(request):
 
 @admin_required
 def tambah_fakultas(request):
+    user_id = request.session.get('user_id')
+    
+    if not user_id:
+        # Jika tidak ada user_id dalam session, arahkan ke login
+        return redirect('login')
+
+    # Ambil data user berdasarkan user_id dari session
+    user = CustomUser.objects.get(id=user_id)
+    
     if request.method == 'POST':
         form = FakultasForm(request.POST, request.FILES)
         
@@ -146,7 +155,7 @@ def tambah_fakultas(request):
     else:
         form = FakultasForm()
 
-    return render(request, 'prodi/tambah_fakultas.html', {'form': form})
+    return render(request, 'prodi/tambah_fakultas.html', {'form': form, 'user': user})
 
   
 @admin_required  
@@ -161,15 +170,20 @@ def daftar_fakultas(request):
     user = CustomUser.objects.get(id=user_id)
     semua_fakultas = Fakultas.objects.all()
     return render(request, 'prodi/daftar_fakultas.html', {'fakultas_list': semua_fakultas, 'user': user})
-
 @admin_required
 def edit_fakultas(request, fakultas_id):
+    user_id = request.session.get('user_id')
+    
+    if not user_id:
+        return redirect('login')
+
+    user = CustomUser.objects.get(id=user_id)
     fakultas = Fakultas.objects(fakultas_id=fakultas_id).first()
     if not fakultas:
         raise Http404("Fakultas tidak ditemukan.")
 
     if request.method == 'POST':
-        form = FakultasForm(request.POST, request.FILES, initial=fakultas.to_mongo().to_dict())
+        form = FakultasForm(request.POST, request.FILES)
         if form.is_valid():
             fakultas.nama = form.cleaned_data['nama']
 
@@ -183,12 +197,14 @@ def edit_fakultas(request, fakultas_id):
             fakultas.save()
             return redirect('daftar_fakultas')
     else:
-        form = FakultasForm(initial={
+        initial_data = {
             'fakultas_id': fakultas.fakultas_id,
             'nama': fakultas.nama,
-        })
+            'gambar': fakultas.gambar,
+        }
+        form = FakultasForm(initial=initial_data)  # ✅ Pakai form yang benar
 
-    return render(request, 'prodi/edit_fakultas.html', {'form': form, 'fakultas': fakultas})
+    return render(request, 'prodi/edit_fakultas.html', {'form': form, 'fakultas': fakultas, 'user': user})
 
 @admin_required
 def hapus_fakultas(request, fakultas_id):
