@@ -10,28 +10,39 @@ from mongoengine.queryset.visitor import Q
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
+from account.models import CustomUser
+from prodi.models import  Prodi, Testimoni
+import datetime
 
 # Create your views here.
 @admin_required
 def dashboard_admin(request):
-    
     user_id = request.session.get('user_id')
-    
+
     if not user_id:
-        # Jika tidak ada user_id dalam session, arahkan ke login
         return redirect('login')
 
-    # Ambil data user berdasarkan user_id dari session
+    # Ambil user aktif
     user = CustomUser.objects.get(id=user_id)
 
-    # Ambil data fakultas atau prodi yang sesuai dengan user (sesuaikan dengan kebutuhan)
-    # Misalnya, jika setiap user memiliki fakultas tertentu
-    semua_fakultas = Fakultas.objects.all()
+    # Ambil semua pengguna yang merupakan siswa
+    siswa = CustomUser.objects.filter(is_siswa=True)
+    
+    tanggal_hari_ini = datetime.datetime.now().strftime('%d %B %Y')  # Contoh: 14 Mei 2025
 
-    return render(request, 'adminpanel/dashboard.html', {
-        'fakultas_list': semua_fakultas,
-        'user': user
-    })
+    jumlah_pengguna = siswa.count()
+    jumlah_prodi = Prodi.objects.count()
+    jumlah_testimoni = Testimoni.objects.count()
+
+    context = {
+        'user': user,
+        'jumlah_pengguna': jumlah_pengguna,
+        'jumlah_prodi': jumlah_prodi,
+        'jumlah_testimoni': jumlah_testimoni,
+        'tanggal_hari_ini': tanggal_hari_ini,
+    }
+
+    return render(request, 'adminpanel/dashboard.html', context)
     
 
 
@@ -52,6 +63,7 @@ def daftar_pengguna(request):
     else:
         semua_user = CustomUser.objects.all()
 
+    tanggal_hari_ini = datetime.datetime.now().strftime('%d %B %Y')  # Contoh: 14 Mei 2025
     total_data = semua_user.count()
     items_per_page = 5  
     total_pages = ceil(total_data / items_per_page)
@@ -60,7 +72,8 @@ def daftar_pengguna(request):
     return render(request, 'adminpanel/daftar_pengguna.html', {
         'pengguna': semua_user,
         'user': user,
-        'page_numbers': page_numbers
+        'page_numbers': page_numbers,
+        'tanggal_hari_ini': tanggal_hari_ini,
     })
 
 
@@ -116,17 +129,13 @@ def hapus_prodi(request, prodi_id):
         return redirect('login')
 
     try:
-        prodi = Prodi.objects.get(id=prodi_id)
+        prodi = Prodi.objects.get(prodi_id=prodi_id)
         prodi.delete()
         messages.success(request, "Program studi berhasil dihapus.")
     except DoesNotExist:
         messages.error(request, "Program studi tidak ditemukan.")
 
     return redirect('daftar_prodi')
-
-
-from django.core.files.storage import FileSystemStorage
-from django.conf import settings
 
 def edit_prodi(request, prodi_id):
     user_id = request.session.get('user_id')

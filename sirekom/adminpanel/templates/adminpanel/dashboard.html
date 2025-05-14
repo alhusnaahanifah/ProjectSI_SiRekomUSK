@@ -50,7 +50,7 @@
         <div class="welcome">
             <h1 class="welcome-text">WELLCOME BACK, {{user.nama}}</h1>
             <div class="date-display">
-                <i style="margin-right: 5px;"><img src="{% static 'adminpanel/images/iconkalender.png' %}" alt="icon kalender"></i> 24 April 2025
+                <i style="margin-right: 5px;"><img src="{% static 'adminpanel/images/iconkalender.png' %}" alt="icon kalender"></i>{{ tanggal_hari_ini }}
             </div>
         </div>
 
@@ -58,17 +58,17 @@
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-icon"><img src="{% static 'adminpanel/images/iconpengguna.png' %}" alt="icon pengguna"></div>
-                <div class="stat-number">478</div>
+                <div class="stat-number">{{ jumlah_pengguna }}</div>
                 <div class="stat-title">Pengguna</div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon"><img src="{% static 'adminpanel/images/iconprodi.png' %}" alt="icon prodi"></div>
-                <div class="stat-number">64</div>
+                <div class="stat-number">{{ jumlah_prodi }}</div>
                 <div class="stat-title">Program Studi</div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon"><img src="{% static 'adminpanel/images/icontestimoni.png' %}" alt="icon testimoni"></div>
-                <div class="stat-number">100</div>
+                <div class="stat-number">{{ jumlah_testimoni }}</div>
                 <div class="stat-title">Testimoni</div>
             </div>
             <div class="stat-card">

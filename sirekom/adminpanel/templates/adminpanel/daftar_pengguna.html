@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'adminpanel/styles.css' %}">
     <title>SIREKOM USK - Admin Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <!-- header -->
@@ -50,7 +51,7 @@
         <div class="welcome">
             <h1 class="welcome-text">WELLCOME BACK, {{user.nama}}</h1>
             <div class="date-display">
-                <i style="margin-right: 5px;"><img src="{% static 'adminpanel/images/iconkalender.png' %}" alt="icon kalender"></i> 24 April 2025
+                <i style="margin-right: 5px;"><img src="{% static 'adminpanel/images/iconkalender.png' %}" alt="icon kalender"></i>{{ tanggal_hari_ini }}
             </div>
         </div>
 
@@ -87,8 +88,7 @@
                             <a href="#" class="action-icon detail-icon" onclick="showUserModal('{{ pengguna.nama }}', '{{ pengguna.email }}', '{{ pengguna.jenis_kelamin }}', '{{ pengguna.sekolah_asal }}')">
                                 <img src="{% static 'adminpanel/images/icondetail.png' %}" alt="Detail">
                             </a>
-                            <a href="{% url 'hapus_pengguna' pengguna.id %}" class="action-icon delete-icon" 
-                            onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?');">
+                            <a href="#" class="action-icon delete-icon"  onclick="confirmDelete('{{ pengguna.id }}')">
                                 <img src="{% static 'adminpanel/images/icondelete.png' %}" alt="Delete">
                             </a>
                         </div>
@@ -146,6 +146,25 @@
                 }
             }
         });
+
+        function confirmDelete(userId) {
+            Swal.fire({
+                title: 'Yakin ingin menghapus?',
+                text: "Data ini tidak bisa dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Arahkan ke URL hapus
+                    window.location.href = `/hapus_pengguna/${userId}/`;
+                }
+            });
+        }
+
+        
     </script>
 
 </body>

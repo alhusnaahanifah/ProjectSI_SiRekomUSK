@@ -82,9 +82,9 @@
                             <a href="{% url 'edit_fakultas' fakultas.fakultas_id %}" class="action-icon edit-icon">
                                 <img src="{% static 'adminpanel/images/iconedit.png' %}" alt="Edit">
                             </a>
-                            <button class="action-icon delete-icon" onclick="confirmDelete('{{ fakultas.fakultas_id }}')">
+                            <a href="#" class="action-icon delete-icon" onclick="confirmDelete('{{ fakultas.fakultas_id }}')">
                                 <img src="{% static 'adminpanel/images/icondelete.png' %}" alt="Hapus">
-                            </button>
+                            </a>
                         </div>
                     </div> 
                     {% endfor %}                   

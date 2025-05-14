@@ -134,6 +134,7 @@ margin-right: 5px;
 .user-name {
     margin-right: 10px;
     font-weight: bold;
+    color: #806600;
 }
 
 .avatar {
@@ -446,7 +447,6 @@ align-items: center;
 
 .action-button.secondary {
     background: linear-gradient(to right, #FFF6BC 0%, #9C8A18 96%);
-    color: #1a1207;
 }
 
 .action-button img {

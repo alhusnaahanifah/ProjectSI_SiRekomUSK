@@ -21,13 +21,6 @@
                 <h1>SELAMAT DATANG</h1>
 
                 <p class="subtitle">masuk dan cari tau jurusan yang sesuai denganmu</p>
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="alert">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
 
                 <form method="POST">
                     {% csrf_token %}                

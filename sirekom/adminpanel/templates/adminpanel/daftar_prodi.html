@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'adminpanel/styles.css' %}">
     <title>SIREKOM USK - Admin Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <!-- header -->
@@ -105,8 +106,7 @@
                             <a href="{% url 'edit_prodi' prodi.prodi_id %}" class="action-icon edit-icon">
                                 <img src="{% static 'adminpanel/images/iconedit.png' %}" alt="Edit">
                             </a>
-                            <a href="{% url 'hapus_prodi' prodi.id %}" class="action-icon delete-icon" 
-                            onclick="return confirm('Apakah Anda yakin ingin menghapus program studi ini?');">
+                            <a href="#" class="action-icon delete-icon" onclick="confirmDelete('{{ prodi.prodi_id }}')">
                                 <img src="{% static 'adminpanel/images/icondelete.png' %}" alt="Delete">
                             </a>
                         </div>
@@ -178,6 +178,23 @@
                     }
                 });
             });
+
+            function confirmDelete(prodiId) {
+                Swal.fire({
+                    title: 'Yakin ingin menghapus?',
+                    text: "Data ini tidak bisa dikembalikan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, hapus!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Arahkan ke URL hapus
+                        window.location.href = `/hapus_prodi/${prodiId}/`;
+                    }
+                });
+            }
 
         </script>
 
