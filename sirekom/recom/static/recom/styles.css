@@ -392,3 +392,12 @@ main {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
 }
+
+.error-message {
+    background-color: #ffe5e5;
+    border: 1px solid #ff4d4d;
+    padding: 10px;
+    border-radius: 4px;
+    color: #cc0000;
+    font-weight: 500;
+}

@@ -16,40 +16,52 @@ def instruksi_view(request):
 
 def rekomendasi(request):
     response_data = request.session.get('response_data', {})
-    likert_list = list(response_data.values())  # Jawaban user
-    print("Likert:", likert_list)
+    
+    # Cegah akses langsung jika belum ada jawaban
+    if not response_data:
+        return redirect('quiz', page=1)
 
-    client = MongoClient()  # sesuaikan jika pakai custom host/port
-    db = client["sirekom"]  # ganti nama_db sesuai kebutuhan
+    client = MongoClient()  # sesuaikan jika pakai host/port lain
+    db = client["sirekom"]
     collection = db["skalaLikert"]
 
-    # Ambil semua dokumen
+    # Ambil semua dokumen dari koleksi skalaLikert
     docs = list(collection.find())
     
     if not docs:
         return render(request, 'recom/rekomendasi.html', {
-            'error': 'Data tidak ditemukan.',
-            'likert_list': likert_list
+            'error': 'Data tidak ditemukan.'
         })
 
-    # Buat urutan pertanyaan dari dokumen
+    # Ambil urutan pertanyaan dari dokumen
     pertanyaan_order = [doc['pertanyaan_id'] for doc in docs]
 
-    # Buat dictionary: {prodi: [nilai berdasarkan urutan pertanyaan]}
-    prodi_vectors = {}
-    for doc in docs:
-        for prodi, value in doc.items():
-            if prodi in ['_id', 'pertanyaan_id']:
-                continue
-            prodi_vectors.setdefault(prodi, []).append(doc[prodi])
+    # Susun likert_list sesuai urutan pertanyaan
+    likert_list = []
+    for pid in pertanyaan_order:
+        value = response_data.get(str(pid)) or response_data.get(int(pid))
+        if value is None:
+            return render(request, 'recom/rekomendasi.html', {
+                'error': f'Jawaban untuk pertanyaan {pid} tidak ditemukan.'
+            })
+        likert_list.append(value)
 
-    # Pastikan panjang jawaban user sama
+    # Validasi panjang
     if len(likert_list) != len(pertanyaan_order):
         return render(request, 'recom/rekomendasi.html', {
             'error': 'Jumlah jawaban tidak sesuai jumlah pertanyaan.',
             'likert_list': likert_list
         })
 
+    # Siapkan vektor untuk setiap prodi
+    prodi_vectors = {}
+    for doc in docs:
+        for prodi, value in doc.items():
+            if prodi in ['_id', 'pertanyaan_id']:
+                continue
+            prodi_vectors.setdefault(prodi, []).append(value)
+
+    # Hitung similarity
     user_vector = np.array(likert_list).reshape(1, -1)
     similarity_scores = {}
 
@@ -60,11 +72,20 @@ def rekomendasi(request):
 
     # Urutkan berdasarkan similarity
     sorted_prodi = sorted(similarity_scores.items(), key=lambda x: x[1], reverse=True)
-    top_prodi = sorted_prodi[:3]  # 3 prodi teratas
+
+    # Ambil nama prodi dari koleksi 'prodi'
+    prodi_docs = list(db["prodi"].find())
+    prodi_id_to_nama = {doc['prodi_id']: doc['nama_prodi'] for doc in prodi_docs}
+
+    # Ubah prodi ID menjadi nama
+    top_prodi_named = [
+        (prodi_id_to_nama.get(prodi_id, prodi_id), score)
+        for prodi_id, score in sorted_prodi[:3]
+    ]
 
     return render(request, 'recom/rekomendasi.html', {
         'likert_list': likert_list,
-        'top_prodi': top_prodi,
+        'top_prodi': top_prodi_named,
     })
 
 
@@ -91,13 +112,17 @@ def quiz(request, page=1):
     questions = all_questions[start_idx:end_idx]
     start_number = (page - 1) * questions_per_page
 
-    for question in questions:
-        user_response = Response.objects(user=user, question=question).first()
-        question.user_response = user_response.value if user_response else None
+    # Saat GET: kosongkan user_response agar tidak tampil jawaban lama
+    if request.method == 'GET':
+        for question in questions:
+            question.user_response = None
+
 
     if request.method == 'POST':
         with transaction.atomic():
             unanswered = []
+            question_errors = {}  # Tambahan
+
             response_data = request.session.get('response_data', {})
 
             for question in questions:
@@ -119,10 +144,15 @@ def quiz(request, page=1):
                     response_data[str(question.pertanyaan_id)] = int(value)
                 else:
                     unanswered.append(question.pertanyaan_id)
+                    question_errors[question.pertanyaan_id] = "Pertanyaan ini wajib dijawab." 
 
             request.session['response_data'] = response_data
 
             if unanswered:
+                for question in questions:
+                    value = request.POST.get(f'question_{question.pertanyaan_id}')
+                    question.user_response = int(value) if value else None
+
                 context = {
                     'questions': questions,
                     'current_page': page,
@@ -130,9 +160,12 @@ def quiz(request, page=1):
                     'is_first_page': page == 1,
                     'is_last_page': page == total_pages,
                     'progress_percentage': (page / total_pages) * 100,
-                    'error_message': 'Harap jawab semua pertanyaan sebelum melanjutkan.'
+                    'error_message': 'Harap jawab semua pertanyaan sebelum melanjutkan.',
+                    'question_errors': question_errors,
+                    'start_number': start_number,
                 }
                 return render(request, 'recom/quiz.html', context)
+
 
             if 'next' in request.POST and page < total_pages:
                 return redirect('quiz', page=page+1)

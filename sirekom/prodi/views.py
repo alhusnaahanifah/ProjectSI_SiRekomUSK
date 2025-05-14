@@ -47,8 +47,6 @@ def dashboard(request):
         'fakultas_list': semua_fakultas,
         'user': user,
         'testimoni_form': testimoni_form,
-        
-    
     })
 
 @admin_required
