@@ -83,7 +83,70 @@
 
                 </div>
             </div>
-        </main>
+    </div>
+        <section class="testi-section">
+        <!-- Elemen hiasan background -->
+        <div class="leaf-decoration"></div>
+        <div class="circle-decoration"></div>
+        <p class="subheading1">
+            <span>📩</span> Yuk, bagikan pengalamanmu bersama kami! Ceritamu bisa menginspirasi orang lain!</span>
+
+        </p>
+            </div>
+
+<div class="testimonial-container">
+    <div class="testimonial-wrapper"> 
+        <div class="testimonial-card"> 
+            <!-- Background decoration --> 
+            <div class="testimonial-bg-decoration testimonial-bg-circle-1"></div> 
+            <div class="testimonial-bg-decoration testimonial-bg-circle-2"></div> 
+             
+            <!-- Form content --> 
+            <div id="testimonial-form-container"> 
+                <div class="testimonial-header"> 
+                    <div class="testimonial-icon-container"> 
+                        <i class="fas fa-comment-dots"><span>🚀</span></i> 
+                    </div> 
+                    <h2 class="testimonial-title">Ayooo Testimoni</h2> 
+                </div> 
+                 
+                <div class="testimonial-form-content">
+                    <form method="POST" action="{% url 'dashboard_siswa' %}" id="testimoni-form">
+                        {% csrf_token %}
+                        <div class="testimonial-form-group">
+                            <label for="id_nama">Nama Lengkap</label>
+                            <input type="text" id="id_nama" name="nama" 
+                                value="{{ user.nama }}" readonly
+                                placeholder="Nama Anda">
+                        </div>
+                        
+                        <div class="testimonial-form-group">
+                            <label for="id_isi">Testimoni</label>
+                            <textarea id="id_isi" name="isi" rows="5" 
+                                    placeholder="Bagikan pengalaman Anda..."></textarea>
+                        </div>
+                        
+                        {# Tempatkan blok error di sini #}
+                        {% if testimoni_form.errors %}
+                        <div class="testimonial-error-message">
+                            {% for field, errors in testimoni_form.errors.items %}
+                                {% for error in errors %}
+                                    <p class="error-text">{{ error }}</p>
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        
+                        <div class="testimonial-button-container">
+                            <button type="submit" class="testimonial-submit-btn" name="submit_testimoni">
+                                <i class="fas fa-paper-plane"></i> Kirim Testimoni
+                            </button>
+                        </div>
+                    </form>
+                </div>
+    </div>
+</div>
+
 
         <footer>
             Copyright © 2025 StudyFind. All rights reserved
