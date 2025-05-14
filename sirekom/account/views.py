@@ -46,26 +46,33 @@ def login_siswa(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
-        
+        next_url = request.POST.get('next')  # Tangkap dari hidden input
+
         try:
             user = CustomUser.objects.get(email=email)
             if user and check_password(password, user.password):
+                # Simpan session
                 request.session['user_id'] = str(user.id)
                 request.session['user_email'] = user.email
                 request.session['is_admin_custom'] = user.is_admin_custom
                 request.session['is_siswa'] = user.is_siswa
                 request.session['user_nama'] = user.nama
-            # ✅ Redirect berdasarkan peran
-            if user.is_admin_custom:
-                return redirect('dashboard_admin')
-            elif user.is_siswa:
-                return redirect('dashboard_siswa')
+
+                # ✅ Redirect berdasarkan role
+                if next_url:
+                    return redirect(next_url)  # redirect ke halaman sebelum login
+                elif user.is_admin_custom:
+                    return redirect('dashboard_admin')
+                elif user.is_siswa:
+                    return redirect('dashboard_siswa')
             else:
                 messages.error(request, 'Email atau password salah!')
         except CustomUser.DoesNotExist:
             messages.error(request, 'Akun tidak ditemukan.')
 
-    return render(request, 'account/masuk.html')
+    # Kirim nilai `next` ke template agar tetap terisi di form login
+    return render(request, 'account/masuk.html', {'next': request.GET.get('next', '')})
+
 
 def logout_view(request):
     request.session.flush()  # Hapus semua data session

@@ -7,10 +7,10 @@
 
 body {
     background: linear-gradient(
-        to bottom,
-        #F1F8D9 0%,
-        #FFFFFF 59%,
-        rgba(226, 241, 179, 0.5) 100%
+ to bottom,
+ #F1F8D9 0%,
+ #FFFFFF 59%,
+ rgba(226, 241, 179, 0.5) 100%
     );
     background-attachment: fixed;
     background-size: cover;
@@ -256,4 +256,139 @@ main {
     padding: 15px 0;
     width: 100%;
     margin-top: auto; /* Pushes footer to bottom when content is short */
+}
+
+.question-card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.question-card:hover {
+    transform: translateY(-3px);
+}
+
+.question-text {
+    color: #333;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.likert-scale {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.likert-option {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100px;
+}
+
+.likert-option input[type="radio"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #e9d66b;
+    border-radius: 50%;
+    margin-bottom: 8px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.likert-option input[type="radio"]:checked {
+    background-color: #e9d66b;
+    border-color: #e9d66b;
+}
+
+.likert-option input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.likert-option label {
+    font-size: 14px;
+    color: #555;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.likert-option input[type="radio"]:checked + label {
+    color: #333;
+    font-weight: 500;
+}
+
+.progress-bar {
+    background: #f0f0f0;
+    border-radius: 20px;
+    height: 12px;
+    margin: 25px 0 35px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.progress {
+    background: linear-gradient(to right, #e9d66b, #d9c659);
+    height: 100%;
+    border-radius: 20px;
+    transition: width 0.5s ease;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.btn {
+    padding: 12px 30px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn-primary {
+    background-color: #e9d66b;
+    color: #333;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:hover {
+    background-color: #d9c659;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-secondary {
+    background-color: #f5f5f5;
+    color: #666;
+    border: 1px solid #e0e0e0;
+}
+
+.btn-secondary:hover {
+    background-color: #ebebeb;
+    color: #444;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
 }

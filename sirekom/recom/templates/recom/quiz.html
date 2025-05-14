@@ -1,0 +1,99 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kuesioner Kepribadian</title>
+    <link rel="stylesheet" href="{% static 'recom/styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    {% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% endblock %}
+</head>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <div class="logo">
+                <img src="{% static 'recom/images/Logosamping.png' %}" alt="StudyFind Logo">
+            </div>
+            <div class="user-menu">
+                <div class="dropdown">Beranda</div>
+                <div class="user-icon"><img src="{% static 'recom/images/iconprofil.png' %}" alt="Profil"></div>
+            </div>
+        </header>
+        
+        <main>
+            <div class="main-content">
+                <div class="questionnaire-container">
+                    <div class="progress-container">
+                        <h2>Tes Kepribadian - Halaman {{ current_page }} dari {{ total_pages }}</h2>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: {{ progress_percentage }}%"></div>
+                        </div>
+                    </div>
+                    
+                    <form method="post" class="test-form">
+                        {% csrf_token %}
+                        
+                        {% for question in questions %}
+                        <div class="question-card">
+                            <p class="question-text">{{ forloop.counter }}. {{ question.pertanyaan }}</p>
+                            <div class="likert-scale">
+                                <div class="likert-option">
+                                    <input type="radio" id="opt5_{{ question.pertanyaan_id }}" name="question_{{ question.pertanyaan_id }}" value="5" 
+                                           {% if question.user_response == 5 %}checked{% endif %}>
+                                    <label for="opt5_{{ question.pertanyaan_id }}">Sangat sesuai</label>
+                                </div>
+                                
+                                <div class="likert-option">
+                                    <input type="radio" id="opt4_{{ question.pertanyaan_id }}" name="question_{{ question.pertanyaan_id }}" value="4" 
+                                           {% if question.user_response == 4 %}checked{% endif %}>
+                                    <label for="opt4_{{ question.pertanyaan_id }}">Sesuai</label>
+                                </div>
+                                
+                                <div class="likert-option">
+                                    <input type="radio" id="opt3_{{ question.pertanyaan_id }}" name="question_{{ question.pertanyaan_id }}" value="3" 
+                                           {% if question.user_response == 3 %}checked{% endif %}>
+                                    <label for="opt3_{{ question.pertanyaan_id }}">Cukup Sesuai</label>
+                                </div>
+                                
+                                <div class="likert-option">
+                                    <input type="radio" id="opt2_{{ question.pertanyaan_id }}" name="question_{{ question.pertanyaan_id }}" value="2" 
+                                           {% if question.user_response == 2 %}checked{% endif %}>
+                                    <label for="opt2_{{ question.pertanyaan_id }}">Tidak Sesuai</label>
+                                </div>
+                                
+                                <div class="likert-option">
+                                    <input type="radio" id="opt1_{{ question.pertanyaan_id }}" name="question_{{ question.pertanyaan_id }}" value="1" 
+                                           {% if question.user_response == 1 %}checked{% endif %}>
+                                    <label for="opt1_{{ question.pertanyaan_id }}">Sangat Tidak Sesuai</label>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
+                        <div class="button-container">
+                            {% if not is_first_page %}
+                            <button type="submit" name="prev" class="btn btn-secondary">Sebelumnya</button>
+                            {% else %}
+                            <div></div>
+                            {% endif %}
+                            
+                            {% if is_last_page %}
+                            <button type="submit" name="finish" class="btn btn-primary">Selesai</button>
+                            {% else %}
+                            <button type="submit" name="next" class="btn btn-primary">Selanjutnya</button>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            Copyright © 2025 StudyFind. All rights reserved
+        </footer>
+    </div>
+</body>
+</html>

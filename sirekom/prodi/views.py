@@ -12,22 +12,17 @@ from django.contrib import messages
 from account.decorators import siswa_required
 from account.models import CustomUser
 from django.http import Http404
+from django.urls import reverse
 
-# Create your views here.
 @siswa_required
 def dashboard(request):
-  # Ambil user_id dari session
     user_id = request.session.get('user_id')
     
     if not user_id:
-        # Jika tidak ada user_id dalam session, arahkan ke login
-        return redirect('login')
+        # Redirect ke login dan simpan halaman tujuan
+        return redirect(f"{reverse('login')}?next={request.path}")
 
-    # Ambil data user berdasarkan user_id dari session
     user = CustomUser.objects.get(id=user_id)
-
-    # Ambil data fakultas atau prodi yang sesuai dengan user (sesuaikan dengan kebutuhan)
-    # Misalnya, jika setiap user memiliki fakultas tertentu
     semua_fakultas = Fakultas.objects.all()
 
     return render(request, 'prodi/dashboard.html', {
