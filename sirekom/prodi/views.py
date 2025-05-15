@@ -16,6 +16,8 @@ from django.urls import reverse
 from account.decorators import admin_required
 from .models import Testimoni
 from .forms import TestimoniForm
+from recom.models import TesMinat
+from pymongo import MongoClient
 
 # Create your views here.
 @siswa_required
@@ -26,6 +28,27 @@ def dashboard(request):
 
     user = CustomUser.objects.get(id=user_id)
     semua_fakultas = Fakultas.objects.all()
+
+    # Ambil TesMinat terakhir user
+    latest_tes = TesMinat.objects(siswa=user).order_by('-created_at').first()
+    rekomendasi_teratas = []
+
+    if latest_tes and hasattr(latest_tes, 'similarity_scores'):
+        # Ambil nama prodi dari MongoDB
+        client = MongoClient()
+        db = client["sirekom"]
+        prodi_docs = list(db["prodi"].find())
+        prodi_id_to_nama = {doc['prodi_id']: doc['nama_prodi'] for doc in prodi_docs}
+
+        # Ambil dan urutkan 3 prodi teratas
+        sorted_scores = sorted(latest_tes.similarity_scores.items(), key=lambda x: x[1], reverse=True)
+        rekomendasi_teratas = [
+            {
+                'prodi': prodi_id_to_nama.get(key, key),  # Gunakan nama_prodi
+                'score': round(val * 100,2)
+            } for key, val in sorted_scores[:3]
+        ]
+
 
     if request.method == 'POST' and 'submit_testimoni' in request.POST:
         testimoni_form = TestimoniForm(request.POST)
@@ -39,7 +62,6 @@ def dashboard(request):
             messages.success(request, "Testimoni berhasil dikirim!")
             return redirect('dashboard_siswa')
     else:
-        # Set nilai awal untuk nama
         initial_data = {'nama': user.nama}
         testimoni_form = TestimoniForm(initial=initial_data)
 
@@ -47,6 +69,7 @@ def dashboard(request):
         'fakultas_list': semua_fakultas,
         'user': user,
         'testimoni_form': testimoni_form,
+        'rekomendasi_teratas': rekomendasi_teratas,
     })
 
 @admin_required

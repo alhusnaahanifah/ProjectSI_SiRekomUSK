@@ -44,19 +44,18 @@
                     <div class="recommendation-heading">Rekomendasi Prodi paling sesuai</div>
                     <div class="results-right">
                         <div class="score-cards">
-                            <div class="score-card">
-                                <div class="score">90%</div>
-                                <div class="score-label">S1 Ilmu Komunikasi</div>
-                            </div>
-                            <div class="score-card">
-                                <div class="score">95%</div>
-                                <div class="score-label">S1 Ilmu Hukum</div>
-                            </div>
-                            <div class="score-card">
-                                <div class="score">89%</div>
-                                <div class="score-label">S1 Ilmu Politik</div>
-                            </div>
+                            {% if rekomendasi_teratas %}
+                                {% for rekom in rekomendasi_teratas %}
+                                    <div class="score-card">
+                                        <div class="score">{{ rekom.score }}%</div>
+                                        <div class="score-label">{{ rekom.prodi }}</div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <p>Belum ada hasil tes minat tersedia.</p>
+                            {% endif %}
                         </div>
+
                     </div>
                 </div>
             </div>

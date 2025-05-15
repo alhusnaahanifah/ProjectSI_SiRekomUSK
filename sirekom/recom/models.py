@@ -1,8 +1,19 @@
 from account.models import CustomUser
-from mongoengine import Document, StringField, IntField, ReferenceField
-from account.models import CustomUser
+from mongoengine import Document, StringField, IntField, ReferenceField, DateTimeField, DictField
+import datetime
 
-# Ambil pertanyaan dari MongoDB
+class TesMinat(Document):
+    siswa = ReferenceField(CustomUser, required=True)
+    response = DictField()
+    created_at = DateTimeField(default=datetime.datetime.utcnow)
+    similarity_scores = DictField()
+
+    meta = {
+        'collection': 'tesminat',
+        'ordering': ['-created_at']
+    }
+
+
 class Quiz(Document):
     meta = {'collection': 'quiz'}  # nama koleksi MongoDB
     pertanyaan_id = StringField(required=True, primary_key=True)
@@ -14,12 +25,13 @@ class Quiz(Document):
 
 class Response(Document):
     user = ReferenceField(CustomUser, required=True)
+    tesminat = ReferenceField(TesMinat, required=True)
     question = ReferenceField(Quiz, required=True)
     value = IntField(min_value=1, max_value=5)
 
     meta = {
         'collection': 'response',
         'indexes': [
-            {'fields': ['user', 'question'], 'unique': True}
+            {'fields': ['tesminat', 'question'], 'unique': True}
         ]
     }
